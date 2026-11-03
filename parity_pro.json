@@ -1,0 +1,369 @@
+{
+ "vide": {
+  "draft": {
+   "activity": null,
+   "other_activities": [],
+   "name": null,
+   "territory": null,
+   "commune": null,
+   "address": null,
+   "about": null,
+   "price_level": null,
+   "deposit_pct": 0,
+   "home_zones": {},
+   "services": [],
+   "staff": [],
+   "documents": {
+    "siret": null,
+    "rc_pro": null,
+    "rc_pro_expiry": null,
+    "diplome": null
+   }
+  },
+  "missing": [
+   "Choisissez votre activité principale.",
+   "Indiquez le nom de l'établissement.",
+   "Choisissez le territoire.",
+   "Indiquez l'adresse complète.",
+   "Présentez l'établissement en quelques phrases (40 caractères minimum).",
+   "Indiquez la gamme de prix.",
+   "Ajoutez au moins une prestation.",
+   "Ajoutez au moins un membre de l'équipe.",
+   "Numéro SIRET invalide (14 chiffres).",
+   "Déposez l'attestation d'assurance RC Pro."
+  ]
+ },
+ "complete": {
+  "draft": {
+   "activity": "tresses-locks",
+   "other_activities": [
+    "coiffure"
+   ],
+   "name": "Atelier Zétwal",
+   "territory": "MQ",
+   "commune": "Le Robert",
+   "address": "12 rue de la Mairie, 97231 Le Robert",
+   "about": "Tresses, locks et soins des cheveux texturés, au salon ou chez vous dans le Nord Atlantique.",
+   "price_level": 2,
+   "deposit_pct": 20,
+   "home_zones": {
+    "Le Robert": 10,
+    "La Trinité": 20
+   },
+   "services": [
+    {
+     "id": "tresses-collees",
+     "template": "tresses-collees",
+     "name": "Tresses collées",
+     "section": "Tresses",
+     "duration": 150,
+     "price": 70.0,
+     "price_from": false,
+     "pose": null,
+     "home_ok": true,
+     "online": true,
+     "description": ""
+    },
+    {
+     "id": "soin",
+     "template": null,
+     "name": "Soin cuir chevelu",
+     "section": "Soins",
+     "duration": 45,
+     "price": 30.0,
+     "price_from": false,
+     "pose": [
+      15,
+      15
+     ],
+     "home_ok": false,
+     "online": true,
+     "description": ""
+    }
+   ],
+   "staff": [
+    {
+     "id": "lea",
+     "name": "Léa",
+     "home": true,
+     "skills": [
+      "tresses-collees",
+      "soin"
+     ],
+     "hours": {
+      "1": [
+       [
+        "08:00",
+        "12:00"
+       ],
+       [
+        "13:30",
+        "18:00"
+       ]
+      ],
+      "5": [
+       [
+        "08:00",
+        "14:00"
+       ]
+      ]
+     }
+    }
+   ],
+   "documents": {
+    "siret": "732 829 320 00074",
+    "rc_pro": "attestation-rcpro.pdf",
+    "rc_pro_expiry": "2027-06-30",
+    "diplome": null
+   }
+  },
+  "missing": []
+ },
+ "erreurs": {
+  "draft": {
+   "activity": "tresses-locks",
+   "other_activities": [
+    "coiffure"
+   ],
+   "name": "Atelier Zétwal",
+   "territory": "MQ",
+   "commune": "Le Robert",
+   "address": "12 rue de la Mairie, 97231 Le Robert",
+   "about": "Tresses, locks et soins des cheveux texturés, au salon ou chez vous dans le Nord Atlantique.",
+   "price_level": 2,
+   "deposit_pct": 20,
+   "home_zones": {
+    "Le Robert": 10,
+    "La Trinité": 20
+   },
+   "services": [
+    {
+     "id": "tresses-collees",
+     "template": "tresses-collees",
+     "name": "Tresses collées",
+     "section": "Tresses",
+     "duration": 140,
+     "price": 70.0,
+     "price_from": false,
+     "pose": null,
+     "home_ok": true,
+     "online": true,
+     "description": ""
+    },
+    {
+     "id": "soin",
+     "template": null,
+     "name": "Soin cuir chevelu",
+     "section": "Soins",
+     "duration": 45,
+     "price": 30.0,
+     "price_from": false,
+     "pose": [
+      15,
+      15
+     ],
+     "home_ok": false,
+     "online": true,
+     "description": ""
+    }
+   ],
+   "staff": [
+    {
+     "id": "lea",
+     "name": "Léa",
+     "home": false,
+     "skills": [
+      "soin",
+      "inconnue"
+     ],
+     "hours": {
+      "1": [
+       [
+        "08:00",
+        "12:00"
+       ],
+       [
+        "13:30",
+        "18:00"
+       ]
+      ],
+      "5": [
+       [
+        "08:00",
+        "14:00"
+       ]
+      ]
+     }
+    }
+   ],
+   "documents": {
+    "siret": "73282932000075",
+    "rc_pro": "a.pdf",
+    "rc_pro_expiry": "2026-01-01",
+    "diplome": null
+   }
+  },
+  "missing": [
+   "« Tresses collées » : durée par tranches de 15 minutes.",
+   "Léa : prestation inconnue (inconnue).",
+   "Personne ne réalise : Tresses collées.",
+   "Une prestation est proposée à domicile mais personne ne se déplace.",
+   "Numéro SIRET invalide (14 chiffres).",
+   "Indiquez une date de fin de validité de l'assurance RC Pro à venir."
+  ]
+ },
+ "zones_horaires": {
+  "draft": {
+   "activity": "tresses-locks",
+   "other_activities": [
+    "coiffure"
+   ],
+   "name": "Atelier Zétwal",
+   "territory": "MQ",
+   "commune": "L'Ajoupa-Bouillon",
+   "address": "12 rue de la Mairie, 97231 Le Robert",
+   "about": "Tresses, locks et soins des cheveux texturés, au salon ou chez vous dans le Nord Atlantique.",
+   "price_level": 2,
+   "deposit_pct": 20,
+   "home_zones": {
+    "L'Ajoupa-Bouillon": 130,
+    "Pointe-à-Pitre": 20
+   },
+   "services": [
+    {
+     "id": "tresses-collees",
+     "template": "tresses-collees",
+     "name": "Tresses collées",
+     "section": "Tresses",
+     "duration": 150,
+     "price": 70.0,
+     "price_from": false,
+     "pose": null,
+     "home_ok": true,
+     "online": true,
+     "description": ""
+    },
+    {
+     "id": "soin",
+     "template": null,
+     "name": "Soin cuir chevelu",
+     "section": "Soins",
+     "duration": 45,
+     "price": null,
+     "price_from": false,
+     "pose": [
+      30,
+      20
+     ],
+     "home_ok": false,
+     "online": true,
+     "description": ""
+    }
+   ],
+   "staff": [
+    {
+     "id": "lea",
+     "name": "Léa",
+     "home": true,
+     "skills": [
+      "tresses-collees",
+      "soin"
+     ],
+     "hours": {
+      "2": [
+       [
+        "10:00",
+        "09:00"
+       ]
+      ],
+      "4": [
+       [
+        "08:00",
+        "12:00"
+       ],
+       [
+        "11:00",
+        "15:00"
+       ]
+      ]
+     }
+    }
+   ],
+   "documents": {
+    "siret": "732 829 320 00074",
+    "rc_pro": null,
+    "rc_pro_expiry": null,
+    "diplome": null
+   }
+  },
+  "missing": [
+   "Commune desservie inconnue : Pointe-à-Pitre.",
+   "Temps de trajet à domicile : entre 5 et 120 minutes.",
+   "« Soin cuir chevelu » : le temps de pose doit tenir dans la prestation.",
+   "« Soin cuir chevelu » : indiquez un prix ou cochez « sur devis ».",
+   "Léa : horaires incohérents le mercredi.",
+   "Léa : horaires incohérents le vendredi.",
+   "Déposez l'attestation d'assurance RC Pro."
+  ]
+ },
+ "sans_equipe": {
+  "draft": {
+   "activity": "tresses-locks",
+   "other_activities": [
+    "coiffure"
+   ],
+   "name": "Atelier Zétwal",
+   "territory": "MQ",
+   "commune": "Le Robert",
+   "address": "12 rue de la Mairie, 97231 Le Robert",
+   "about": "Tresses, locks et soins des cheveux texturés, au salon ou chez vous dans le Nord Atlantique.",
+   "price_level": 2,
+   "deposit_pct": 20,
+   "home_zones": {},
+   "services": [
+    {
+     "id": "tresses-collees",
+     "template": "tresses-collees",
+     "name": "Tresses collées",
+     "section": "Tresses",
+     "duration": 150,
+     "price": 70.0,
+     "price_from": false,
+     "pose": null,
+     "home_ok": true,
+     "online": true,
+     "description": ""
+    },
+    {
+     "id": "soin",
+     "template": null,
+     "name": "Soin cuir chevelu",
+     "section": "Soins",
+     "duration": 45,
+     "price": 30.0,
+     "price_from": false,
+     "pose": [
+      15,
+      15
+     ],
+     "home_ok": false,
+     "online": true,
+     "description": ""
+    }
+   ],
+   "staff": [],
+   "documents": {
+    "siret": "732 829 320 00074",
+    "rc_pro": "attestation-rcpro.pdf",
+    "rc_pro_expiry": "2027-06-30",
+    "diplome": null
+   }
+  },
+  "missing": [
+   "« Tresses collées » est proposée à domicile : ajoutez au moins une commune desservie.",
+   "Ajoutez au moins un membre de l'équipe.",
+   "Personne ne réalise : Tresses collées, Soin cuir chevelu.",
+   "Une prestation est proposée à domicile mais personne ne se déplace."
+  ]
+ }
+}

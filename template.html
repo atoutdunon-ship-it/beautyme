@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>BeautyMe — Votre beauté, votre moment</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Réservez coiffure, tresses, barbier, ongles, esthétique et massage en Martinique, Guadeloupe et Guyane, en salon ou à domicile.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+/* Mise en page : bandeau navy pleine largeur (marque + recherche), contenu blanc
+   en grille 12 colonnes ; la fiche salon passe en deux colonnes (carte | réservation). */
+:root{
+  --navy-900:#050D1B; --navy-850:#081428; --navy-800:#0B1B33; --navy-700:#10294B; --navy-600:#16386A;
+  --band:#050D1B; --band-2:#0B1B33; --band-line:#1E3556;
+  --on-band:#FFFFFF; --on-band-2:#DFE6F0; --on-band-3:#BFCBDC; --on-band-accent:#A8CBF2;
+  --bg:#F4F6F9; --surface:#FFFFFF; --surface-2:#EDF1F6; --line:#D3DAE4; --line-strong:#9AA7B8;
+  --ink:#0B111A; --body:#2A3441; --muted:#566273; --accent:#17457F;
+  --btn-bg:#0B1B33; --btn-fg:#FFFFFF; --btn-hover:#16386A;
+  --sel-bg:#0B1B33; --sel-fg:#FFFFFF;
+  --ok:#1C6741; --ok-bg:#E6F2EC; --alert:#9E2328; --alert-bg:#FBEAEA;
+  --pose:#C9D6E8; --busy:#16386A; --busy-fg:#FFFFFF; --mine:#050D1B;
+  --f-display:"Instrument Serif","Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --f-body:"Manrope","Segoe UI",system-ui,-apple-system,sans-serif;
+  --r:4px; --r-lg:10px;
+  --shadow:0 1px 2px rgba(5,13,27,.06),0 8px 24px rgba(5,13,27,.07);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --band:#03070F; --band-2:#081428; --band-line:#1A2C47;
+  --bg:#06090F; --surface:#0C1321; --surface-2:#121C2E; --line:#22314B; --line-strong:#4A5D7A;
+  --ink:#F4F7FB; --body:#D6DEE9; --muted:#AAB6C7; --accent:#A8CBF2;
+  --btn-bg:#F4F7FB; --btn-fg:#050D1B; --btn-hover:#DCE7F5;
+  --sel-bg:#DCE7F5; --sel-fg:#050D1B;
+  --ok:#8FD3AE; --ok-bg:#0F2A1D; --alert:#F3A6A8; --alert-bg:#2E1214;
+  --pose:#24395A; --busy:#3B5E92; --busy-fg:#FFFFFF; --mine:#DCE7F5;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --band:#03070F; --band-2:#081428; --band-line:#1A2C47;
+  --bg:#06090F; --surface:#0C1321; --surface-2:#121C2E; --line:#22314B; --line-strong:#4A5D7A;
+  --ink:#F4F7FB; --body:#D6DEE9; --muted:#AAB6C7; --accent:#A8CBF2;
+  --btn-bg:#F4F7FB; --btn-fg:#050D1B; --btn-hover:#DCE7F5;
+  --sel-bg:#DCE7F5; --sel-fg:#050D1B;
+  --ok:#8FD3AE; --ok-bg:#0F2A1D; --alert:#F3A6A8; --alert-bg:#2E1214;
+  --pose:#24395A; --busy:#3B5E92; --busy-fg:#FFFFFF; --mine:#DCE7F5;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35);
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--body);font:15px/1.6 var(--f-body);font-feature-settings:"ss01"}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:500;background:var(--band)}
+h1,h2,h3{color:var(--ink);margin:0;text-wrap:balance}
+p{margin:0}
+a{color:var(--accent)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ── En-tête ── */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:300;background:var(--band);border-bottom:1px solid var(--band-line)}
+.hdr{display:flex;align-items:center;gap:28px;height:64px}
+.brand{display:flex;align-items:baseline;gap:12px;min-width:0;text-decoration:none}
+.brand h1{font:400 1.9rem/1 var(--f-display);color:var(--on-band);letter-spacing:-.01em}
+.brand h1 i{font-style:italic;color:var(--on-band-accent)}
+.brand span{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--on-band-3);white-space:nowrap}
+nav#sidebar{margin-left:auto;display:flex;gap:4px}
+nav#sidebar a{color:var(--on-band-2);text-decoration:none;font-weight:600;font-size:.88rem;padding:8px 14px;border-radius:var(--r);cursor:pointer;border:1px solid transparent}
+nav#sidebar a:hover{color:var(--on-band);border-color:var(--band-line)}
+nav#sidebar a.active{color:var(--on-band);border-color:var(--on-band-3)}
+.hdr-clock{font-size:.78rem;color:var(--on-band-3);white-space:nowrap}
+.hdr-clock b{color:var(--on-band);font-weight:700}
+
+/* ── Navigation mobile (standard) ── */
+.mobilebar,.drawer-head{display:none}
+.backdrop{position:fixed;inset:0;background:rgba(5,13,27,.55);z-index:350;opacity:0;visibility:hidden;transition:opacity .22s,visibility .22s;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+.backdrop.on{opacity:1;visibility:visible}
+
+/* ── Pages ── */
+.page{display:none}
+.page.active{display:block}
+
+/* ── Bandeau d'accueil ── */
+.band{background:var(--band);color:var(--on-band-2);padding-block:56px 64px;border-bottom:1px solid var(--band-line)}
+.band .eyebrow{color:var(--on-band-3)}
+.hero-t{font:400 clamp(2.4rem,5.4vw,4.4rem)/1.02 var(--f-display);color:var(--on-band);max-width:15ch;margin-top:14px;letter-spacing:-.015em}
+.hero-t i{color:var(--on-band-accent)}
+.hero-p{max-width:52ch;margin-top:16px;font-size:1.02rem;color:var(--on-band-2)}
+.terr{display:flex;flex-wrap:wrap;gap:0;margin-top:34px;border-bottom:1px solid var(--band-line)}
+.terr button{background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;padding:12px 22px 12px 0;margin-right:22px;cursor:pointer;text-align:left;min-height:44px}
+.terr .tn{display:block;font:400 1.5rem/1.1 var(--f-display);color:var(--on-band-2)}
+.terr .tz{display:block;font-size:.72rem;letter-spacing:.06em;color:var(--on-band-3);margin-top:2px}
+.terr button[aria-pressed="true"]{border-bottom-color:var(--on-band)}
+.terr button[aria-pressed="true"] .tn{color:var(--on-band)}
+
+.search{margin-top:26px;background:var(--surface);border-radius:var(--r-lg);display:grid;grid-template-columns:1.3fr 1.2fr 1fr auto auto;box-shadow:var(--shadow);overflow:hidden}
+.search .f{padding:12px 18px;border-right:1px solid var(--line);min-width:0;display:flex;flex-direction:column;justify-content:center}
+.search label,.field label,.lbl{font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.search select{border:0;background:transparent;color:var(--ink);font:600 1rem var(--f-body);padding:4px 0;width:100%;cursor:pointer}
+.toggle{display:flex;align-items:center;gap:10px;cursor:pointer;color:var(--ink);font-weight:600;font-size:.95rem;white-space:nowrap}
+.toggle input{appearance:none;width:40px;height:24px;border-radius:12px;background:var(--line);position:relative;cursor:pointer;margin:0;flex-shrink:0;transition:background .15s}
+.toggle input::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:var(--surface);transition:transform .15s}
+.toggle input:checked{background:var(--btn-bg)}
+.toggle input:checked::after{transform:translateX(16px);background:var(--btn-fg)}
+.search .go{border:0;background:var(--btn-bg);color:var(--btn-fg);font-weight:800;letter-spacing:.04em;padding:0 30px;cursor:pointer;min-height:64px}
+.search .go:hover{background:var(--btn-hover)}
+
+/* ── Sections ── */
+.sec{padding-block:56px}
+.sec-h{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.sec-h h2{font:400 2.1rem/1.1 var(--f-display)}
+.cats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.cats button{display:flex;justify-content:space-between;align-items:baseline;gap:12px;background:none;border:0;border-bottom:1px solid var(--line);padding:22px 4px;cursor:pointer;text-align:left;min-height:44px}
+.cats button:nth-child(3n+1),.cats button:nth-child(3n+2){border-right:1px solid var(--line);padding-right:18px}
+.cats button:nth-child(3n+2),.cats button:nth-child(3n){padding-left:18px}
+.cats .cn{font:400 1.55rem/1.15 var(--f-display);color:var(--ink)}
+.cats .cc{font-size:.8rem;color:var(--muted);white-space:nowrap}
+.cats button:hover .cn{color:var(--accent)}
+.promise{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface)}
+.promise div{padding:24px;border-right:1px solid var(--line)}
+.promise div:last-child{border-right:0}
+.promise h3{font-size:1rem;font-weight:800;margin-bottom:6px}
+.promise p{font-size:.9rem;color:var(--body)}
+
+/* ── Boutons, puces ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:0 20px;border-radius:var(--r);border:1px solid var(--btn-bg);background:var(--btn-bg);color:var(--btn-fg);font-weight:700;font-size:.9rem;cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn:hover{background:var(--btn-hover);border-color:var(--btn-hover)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+.btn.ghost:hover{border-color:var(--ink);background:transparent}
+.btn.block{width:100%}
+.btn:disabled{background:var(--surface-2);border-color:var(--line);color:var(--muted);cursor:not-allowed}
+.chip{display:inline-flex;align-items:center;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);font-weight:600;font-size:.85rem;cursor:pointer;white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--sel-bg);color:var(--sel-fg);border-color:var(--sel-bg)}
+.chip:disabled,.seg button:disabled{background:var(--surface-2);color:var(--muted);border-color:var(--line);cursor:not-allowed;text-decoration:line-through}
+.tag{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.04em;padding:3px 8px;border-radius:var(--r);background:var(--surface-2);color:var(--ink)}
+.tag.ok{background:var(--ok-bg);color:var(--ok)}
+
+/* ── Recherche ── */
+.filters{background:var(--surface);border-bottom:1px solid var(--line);padding-block:16px;position:sticky;top:calc(64px + env(safe-area-inset-top,0px));z-index:200}
+.filters .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.filters select{min-height:36px;border:1px solid var(--line-strong);border-radius:999px;background:var(--surface);color:var(--ink);font:600 .85rem var(--f-body);padding:0 12px}
+.seg{display:inline-flex;border:1px solid var(--line-strong);border-radius:999px;overflow:hidden}
+.seg button{border:0;background:transparent;min-height:36px;padding:0 14px;font-weight:700;font-size:.85rem;cursor:pointer;color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--sel-bg);color:var(--sel-fg)}
+.hscroll{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;max-width:100%}
+.hscroll::-webkit-scrollbar{display:none}
+.res-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;padding-block:28px 16px}
+.res-h h2{font:400 1.9rem/1.15 var(--f-display)}
+.cards{display:grid;gap:16px;padding-bottom:64px}
+.card{display:grid;grid-template-columns:168px 1fr auto;gap:22px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px;align-items:center}
+.mono{aspect-ratio:1;max-width:100%;border-radius:var(--r);background:var(--navy-800);display:flex;flex-direction:column;justify-content:space-between;padding:14px;color:#FFFFFF}
+.mono b{font:400 2.6rem/1 var(--f-display);color:#FFFFFF}
+.mono small{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:#BFCBDC}
+.mono.c-coiffure{background:#0B1B33}.mono.c-tresses-locks{background:#050D1B}.mono.c-barbier{background:#10294B}
+.mono.c-ongles{background:#16386A}.mono.c-esthetique{background:#0F223F}.mono.c-bien-etre{background:#122E57}
+.card h3{font-size:1.15rem;font-weight:800}
+.card .meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.86rem;color:var(--muted);margin-top:4px}
+.card .meta b{color:var(--ink)}
+.card .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.card .next{font-size:.86rem;margin-top:10px;color:var(--body)}
+.card .next b{color:var(--ok)}
+.card .act{display:flex;flex-direction:column;gap:8px;align-items:stretch}
+.empty{background:var(--surface);border:1px dashed var(--line-strong);border-radius:var(--r-lg);padding:32px;text-align:center;color:var(--body)}
+
+/* ── Fiche salon ── */
+.s-band{background:var(--band);padding-block:30px 34px;border-bottom:1px solid var(--band-line)}
+.crumbs{font-size:.8rem;color:var(--on-band-3);display:flex;flex-wrap:wrap;gap:6px}
+.crumbs button{background:none;border:0;padding:0;color:var(--on-band-2);cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-size:.8rem}
+.s-band h1{font:400 clamp(2.2rem,4.6vw,3.6rem)/1.05 var(--f-display);color:var(--on-band);margin-top:12px}
+.s-band .meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:12px;font-size:.92rem;color:var(--on-band-2)}
+.s-band .meta b{color:var(--on-band)}
+.s-grid{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:40px;padding-block:36px 80px;align-items:start}
+.menu-sec{margin-bottom:34px}
+.menu-sec h2{font:400 1.6rem/1.2 var(--f-display);padding-bottom:10px;border-bottom:1px solid var(--ink)}
+.svc{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
+.svc h3{font-size:1rem;font-weight:700}
+.svc p{font-size:.86rem;color:var(--muted);margin-top:2px;max-width:58ch}
+.svc .pr{text-align:right;white-space:nowrap}
+.svc .pr b{display:block;color:var(--ink);font-size:1rem}
+.svc .pr span{font-size:.8rem;color:var(--muted)}
+.svc .btn{min-width:104px}
+.svc .btn[aria-pressed="true"]{background:var(--surface);color:var(--ink);border-color:var(--ink)}
+.svc .phone{font-size:.8rem;color:var(--muted);min-width:104px;text-align:center}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:10px}
+.info-grid h2{font:400 1.45rem/1.2 var(--f-display);margin-bottom:10px}
+.hours{width:100%;border-collapse:collapse;font-size:.9rem}
+.hours td{padding:6px 0;border-bottom:1px solid var(--line)}
+.hours td:last-child{text-align:right;color:var(--ink);font-weight:600}
+.team{display:flex;flex-wrap:wrap;gap:8px}
+
+.book{position:sticky;top:calc(84px + env(safe-area-inset-top,0px));background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);overflow:hidden}
+.book-h{background:var(--band-2);padding:18px 20px}
+.book-h h2{font:400 1.5rem/1.15 var(--f-display);color:var(--on-band)}
+.book-h p{font-size:.84rem;color:var(--on-band-2);margin-top:2px}
+.step{padding:16px 20px;border-bottom:1px solid var(--line)}
+.step:last-child{border-bottom:0}
+.step .lbl{display:block;margin-bottom:10px}
+.basket{list-style:none;margin:0;padding:0;font-size:.9rem}
+.basket li{display:flex;justify-content:space-between;gap:12px;padding:4px 0;color:var(--ink)}
+.basket li span:last-child{white-space:nowrap}
+.totals{display:flex;justify-content:space-between;gap:12px;margin-top:8px;padding-top:8px;border-top:1px solid var(--line);font-weight:800;color:var(--ink)}
+.hint{font-size:.8rem;color:var(--muted);margin-top:6px}
+.days{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.days::-webkit-scrollbar{display:none}
+.day{flex:0 0 56px;border:1px solid var(--line-strong);border-radius:var(--r);background:var(--surface);padding:6px 0;cursor:pointer;text-align:center;color:var(--ink);min-height:58px}
+.day small{display:block;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.day b{display:block;font-size:1.05rem}
+.day[aria-pressed="true"]{background:var(--sel-bg);border-color:var(--sel-bg);color:var(--sel-fg)}
+.day[aria-pressed="true"] small{color:var(--sel-fg)}
+.day:disabled{background:var(--surface-2);border-color:var(--line);color:var(--muted);cursor:not-allowed}
+.slot-g{margin-top:10px}
+.slot-g h4{font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:10px 0 6px}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.slot{min-height:40px;border:1px solid var(--line-strong);border-radius:var(--r);background:var(--surface);color:var(--ink);font-weight:700;cursor:pointer;font-variant-numeric:tabular-nums}
+.slot:hover{border-color:var(--ink)}
+.slot[aria-pressed="true"]{background:var(--sel-bg);color:var(--sel-fg);border-color:var(--sel-bg)}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.field input,.field select{min-height:44px;border:1px solid var(--line-strong);border-radius:var(--r);background:var(--surface);color:var(--ink);font:500 1rem var(--f-body);padding:0 12px;width:100%}
+.tel{display:grid;grid-template-columns:96px 1fr;gap:8px}
+.radio{display:flex;gap:8px}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:.84rem;color:var(--body);margin:6px 0 12px;cursor:pointer}
+.check input{width:18px;height:18px;margin-top:2px;flex-shrink:0;accent-color:var(--btn-bg)}
+.timer{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--surface-2);border-radius:var(--r);padding:10px 12px;font-size:.84rem;color:var(--ink);margin-bottom:14px}
+.timer b{font-variant-numeric:tabular-nums}
+.timer.late{background:var(--alert-bg);color:var(--alert)}
+.note{font-size:.8rem;color:var(--muted)}
+.err{font-size:.84rem;color:var(--alert);background:var(--alert-bg);border-radius:var(--r);padding:8px 12px;margin-bottom:12px}
+.done{padding:22px 20px}
+.done h3{font:400 1.7rem/1.15 var(--f-display);margin-bottom:8px}
+.recap{border-top:1px solid var(--line);margin-top:14px}
+.recap div{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px solid var(--line);font-size:.9rem}
+.recap dt{color:var(--muted)}
+.recap dd{margin:0;color:var(--ink);font-weight:700;text-align:right}
+.bookbar{display:none}
+
+/* ── Mes rendez-vous ── */
+.rdv{display:grid;grid-template-columns:120px 1fr auto;gap:20px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px 20px}
+.rdv .when b{display:block;font:400 2rem/1 var(--f-display);color:var(--ink)}
+.rdv .when span{font-size:.8rem;color:var(--muted)}
+.rdv h3{font-size:1.05rem;font-weight:800}
+.rdv p{font-size:.88rem;color:var(--body)}
+.rdv.cancelled h3,.rdv.cancelled p,.rdv.cancelled .when b{color:var(--muted)}
+
+/* ── Espace pro ── */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface);margin-bottom:20px}
+.kpis div{padding:18px 20px;border-right:1px solid var(--line)}
+.kpis div:last-child{border-right:0}
+.kpis b{display:block;font:400 2.2rem/1 var(--f-display);color:var(--ink);font-variant-numeric:tabular-nums;margin-top:6px}
+.tl-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg)}
+.tl{min-width:820px;padding:12px 16px 16px}
+.tl-axis,.tl-row{display:grid;grid-template-columns:110px 1fr;align-items:center}
+.tl-axis .ticks{position:relative;height:22px}
+.tl-axis .ticks span{position:absolute;top:0;font-size:.72rem;color:var(--muted);transform:translateX(-50%);font-variant-numeric:tabular-nums}
+.tl-row{border-top:1px solid var(--line);min-height:58px}
+.tl-row .who{font-weight:700;color:var(--ink);font-size:.9rem}
+.tl-row .who small{display:block;font-weight:500;color:var(--muted);font-size:.74rem}
+.lane{position:relative;height:42px;background:repeating-linear-gradient(90deg,transparent 0 calc(100%/13 - 1px),var(--line) calc(100%/13 - 1px) calc(100%/13))}
+.lane .off{position:absolute;top:0;bottom:0;background:var(--surface-2)}
+.blk{position:absolute;top:4px;bottom:4px;border-radius:3px;background:var(--busy);color:var(--busy-fg);font-size:.7rem;font-weight:700;padding:3px 6px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.blk.mine{background:var(--mine);color:var(--bg)}
+.blk.pose{background:var(--pose);color:var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:.8rem;color:var(--body);margin-top:12px}
+.legend i{display:inline-block;width:14px;height:10px;border-radius:2px;margin-right:6px;vertical-align:baseline}
+
+footer{background:var(--band);color:var(--on-band-3);padding-block:36px;font-size:.84rem;border-top:1px solid var(--band-line)}
+footer .f{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
+footer b{color:var(--on-band);font:400 1.4rem var(--f-display)}
+footer p{color:var(--on-band-2)}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--navy-900);color:#FFFFFF;padding:12px 18px;border-radius:var(--r);font-weight:600;font-size:.9rem;z-index:600;box-shadow:var(--shadow)}
+
+@media(max-width:1100px){
+  .hdr-clock{display:none}
+  .search{grid-template-columns:1fr 1fr;}
+  .search .f:nth-child(2),.search .f:nth-child(4){border-right:0}
+  .search .f{border-bottom:1px solid var(--line)}
+  .search .go{grid-column:1/-1;min-height:56px}
+  .s-grid{grid-template-columns:minmax(0,1fr) 360px;gap:28px}
+}
+@media(max-width:900px){
+  body.nav-open{overflow:hidden}
+  body.nav-open header{z-index:450}
+  header{height:56px}
+  .hdr{height:56px;gap:12px}
+  .brand h1{font-size:1.55rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .brand span{display:none}
+  .mobilebar{display:flex;align-items:center;gap:12px;position:sticky;top:calc(56px + env(safe-area-inset-top,0px));z-index:280;background:var(--surface);border-bottom:1px solid var(--line);padding:9px max(16px,env(safe-area-inset-right,0px)) 9px max(16px,env(safe-area-inset-left,0px))}
+  .mobilebar .mb-lbl{flex:1;min-width:0}
+  .mobilebar .mb-where{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);display:block}
+  .mobilebar .mb-title{font-weight:700;color:var(--ink);font-size:.9rem;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .mobilebar .mb-btn{flex-shrink:0;min-height:40px;padding:0 18px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--btn-bg);color:var(--btn-fg);border:none;border-radius:var(--r);cursor:pointer}
+  nav#sidebar{position:fixed;top:0;left:0;bottom:0;height:100dvh;width:min(86vw,330px);transform:translateX(-101%);transition:transform .24s cubic-bezier(.4,0,.2,1);z-index:400;overscroll-behavior:contain;flex-direction:column;gap:0;margin:0;background:var(--band);padding-top:env(safe-area-inset-top,0px);padding-left:env(safe-area-inset-left,0px)}
+  nav#sidebar.open{transform:none;box-shadow:14px 0 40px rgba(5,13,27,.4)}
+  .drawer-head{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--band);position:sticky;top:0;z-index:2;border-bottom:1px solid var(--band-line)}
+  .drawer-head .dh-t{font:400 1.35rem var(--f-display);color:var(--on-band)}
+  .drawer-head .dh-x{margin-left:auto;min-height:38px;padding:0 14px;color:#FFFFFF;background:transparent;border:1px solid var(--on-band-3);border-radius:var(--r);cursor:pointer;font-weight:700}
+  nav#sidebar a{padding:11px 18px;min-height:44px;font-size:.95rem;border:0;border-radius:0;border-bottom:1px solid var(--band-line);display:flex;align-items:center}
+  nav#sidebar a.active{border-left:3px solid var(--on-band);color:var(--on-band)}
+  .btn{min-height:42px}
+  .chip{min-height:36px}
+  .field input,.field textarea,.field select,.search select,.filters select{font-size:16px}
+  .band{padding-block:34px 40px}
+  .cats,.promise,.info-grid{grid-template-columns:1fr}
+  .cats button{border-right:0!important;padding-left:4px!important;padding-right:4px!important}
+  .promise div{border-right:0;border-bottom:1px solid var(--line)}
+  .promise div:last-child{border-bottom:0}
+  .filters{top:calc(56px + 58px + env(safe-area-inset-top,0px))}
+  .card{grid-template-columns:88px 1fr;gap:14px}
+  .card .mono b{font-size:1.8rem}.card .mono small{display:none}
+  .card .act{grid-column:1/-1;flex-direction:row}
+  .card .act .btn{flex:1}
+  .s-grid{grid-template-columns:1fr;padding-bottom:110px}
+  .book{position:static}
+  .svc{grid-template-columns:minmax(0,1fr) auto}
+  .svc .btn,.svc .phone{grid-column:1/-1;width:100%}
+  .bookbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:250;background:var(--band);padding:12px max(16px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));gap:12px;align-items:center;border-top:1px solid var(--band-line)}
+  .bookbar span{flex:1;min-width:0;color:var(--on-band-2);font-size:.86rem}
+  .bookbar span b{color:var(--on-band);display:block;font-size:.95rem}
+  .bookbar .btn{background:#FFFFFF;color:#050D1B;border-color:#FFFFFF}
+  .rdv{grid-template-columns:1fr;gap:10px}
+  .kpis{grid-template-columns:1fr 1fr}
+  .kpis div:nth-child(2){border-right:0}
+  .kpis div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .nav-btns{flex-direction:column-reverse}
+  .nav-btns .btn{width:100%}
+  .toast{left:16px;right:16px;width:auto;text-align:center;transform:none}
+}
+@media(max-width:520px){
+  .search{grid-template-columns:1fr}
+  .search .f{border-right:0}
+  .slots{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:380px){
+  nav#sidebar{width:92vw}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<link rel="stylesheet" href="luxury.css">
+</head>
+<body>
+<a href="#main-content" class="skip-link" onclick="event.preventDefault();document.getElementById('main-content').focus();document.getElementById('main-content').scrollIntoView({block:'start'})">Aller au contenu</a>
+<div class="announcement"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2c0 6-4 10-10 10 6 0 10 4 10 10 0-6 4-10 10-10C16 12 12 8 12 2Z"/></svg><span data-edit="bandeau">La beauté, à votre rythme. En salon ou chez vous.</span></div>
+
+<header>
+  <div class="wrap hdr">
+    <a class="brand" onclick="showPage('accueil')" tabindex="0" onkeydown="navKey(event,'accueil')"><h1>Beauty<i>Me</i></h1><span>Antilles · Guyane</span></a>
+    <nav id="sidebar" aria-label="Navigation principale">
+      <div class="drawer-head"><span class="dh-t">Beauty<i>Me</i></span><button class="dh-x" type="button" onclick="closeNav()">Fermer</button></div>
+      <a data-page="accueil" data-label="Accueil" tabindex="0" onclick="showPage('accueil')" onkeydown="navKey(event,'accueil')">Accueil</a>
+      <a data-page="recherche" data-label="Rechercher un établissement" tabindex="0" onclick="showPage('recherche')" onkeydown="navKey(event,'recherche')">Rechercher</a>
+      <a data-page="rdv" data-label="Mes rendez-vous" tabindex="0" onclick="showPage('rdv')" onkeydown="navKey(event,'rdv')"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="7" r="4"/><path d="M4 22v-3a8 8 0 0 1 16 0v3"/></svg>Mes rendez-vous</a>
+      <a data-page="pro" data-label="Agenda pro" tabindex="0" onclick="showPage('pro')" onkeydown="navKey(event,'pro')">Agenda pro</a>
+      <a data-page="partenaire" data-label="Espace partenaire" tabindex="0" onclick="showPage('partenaire')" onkeydown="navKey(event,'partenaire')">Espace pro</a>
+    </nav>
+    <div class="hdr-clock num" id="clock"></div>
+  </div>
+</header>
+
+<div class="mobilebar">
+  <span class="mb-lbl"><span class="mb-where">Vous consultez</span><span class="mb-title" id="mb-title">Accueil</span></span>
+  <button class="mb-btn" type="button" id="mb-btn" aria-controls="sidebar" aria-expanded="false" onclick="toggleNav()">Menu</button>
+</div>
+<div class="backdrop" id="backdrop" onclick="closeNav()" aria-hidden="true"></div>
+
+<main id="main-content" tabindex="-1">
+  <!-- ═══ Accueil ═══ -->
+  <section class="page active" id="page-accueil">
+    <div class="editorial-hero">
+      <div class="wrap hero-layout">
+        <div class="hero-copy">
+          <p class="hero-location" data-edit="hero_lieu">La beauté en Martinique, Guadeloupe &amp; Guyane</p>
+          <h2 class="hero-t" data-edit="hero_titre">La beauté,<br>à votre rythme.</h2>
+          <p class="hero-p" data-edit="hero_texte">Votre rendez-vous beauté, <i>en salon ou chez vous.</i><br>Des mains expertes, un moment rien qu’à vous.</p>
+          <p class="hero-note" data-edit="hero_note">Coiffure, tresses et locks, barbier, ongles, esthétique, massage. Créneaux réels, confirmation immédiate et rappel sur WhatsApp.</p>
+        </div>
+        <figure class="hero-photo">
+          <img data-edit-img="hero_image" src="beautyme-1.webp" alt="Portrait éditorial d’une femme afro-caribéenne dans une lumière chaleureuse" fetchpriority="high" width="800" height="1000">
+          <figcaption data-edit="hero_legende">La beauté qui vous ressemble.</figcaption>
+        </figure>
+      </div>
+    </div>
+    <div class="wrap search-wrap">
+      <div class="search-card">
+        <div class="search-topline">
+          <div class="terr" id="terr" role="group" aria-label="Territoire"></div>
+          <p class="search-caption" data-edit="recherche_accroche">Votre prochain moment pour vous commence ici.</p>
+        </div>
+        <form class="search" id="home-search" onsubmit="event.preventDefault();runHomeSearch()">
+          <div class="f"><label for="hs-cat">Quelle envie ?</label><select id="hs-cat"></select></div>
+          <div class="f"><label for="hs-com">Où ?</label><select id="hs-com"></select></div>
+          <div class="f"><label for="hs-day">Quand ?</label><select id="hs-day"></select></div>
+          <div class="f"><label class="toggle" for="hs-home"><input type="checkbox" id="hs-home"> À domicile</label></div>
+          <button class="go" type="submit"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>Rechercher</button>
+        </form>
+      </div>
+      <div class="trust-line"><span><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/><circle cx="12" cy="12" r="10"/></svg>Confirmation immédiate</span><span><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg>Réservation 24 h/24</span><span><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>En salon ou à domicile</span></div>
+    </div>
+    <div class="wrap sec universes">
+      <div class="sec-h"><div><div class="universe-heading"><h2 data-edit="univers_titre">À chaque envie, son univers.</h2><p id="cats-where"></p></div><p class="section-subtitle" data-edit="univers_sous_titre">Trouvez le savoir-faire qui prendra soin de vous.</p></div><button class="text-link" type="button" onclick="S.cat='';showPage('recherche')">Tout explorer<svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+      <div class="cats" id="cats"></div>
+    </div>
+    <div class="promise-section"><div class="wrap">
+      <div class="promise">
+        <div><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a9 9 0 0 1-13.5 7.8L3 21l1.7-4.5A9 9 0 1 1 21 11.5Z"/><path d="M8 10h8m-8 4h5"/></svg><h3 data-edit="promesse_1_titre">Rappels sur WhatsApp</h3><p data-edit="promesse_1_texte">Confirmation, rappel la veille et modification depuis la conversation. Le SMS reste disponible.</p></div>
+        <div><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><h3 data-edit="promesse_2_titre">À domicile, zone par zone</h3><p data-edit="promesse_2_texte">Chaque professionnel déclare les communes qu'il dessert. Le temps de trajet est bloqué dans son agenda.</p></div>
+        <div><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg><h3 data-edit="promesse_3_titre">L'heure de chez vous</h3><p data-edit="promesse_3_texte">Créneaux affichés à l'heure locale du salon : UTC−4 aux Antilles, UTC−3 en Guyane.</p></div>
+      </div>
+    </div></div>
+    <div class="wrap">
+      <div class="home-at-home">
+        <div class="at-home-copy"><h2 data-edit="domicile_titre">Votre cocon.<br>Leur savoir-faire.</h2><p data-edit="domicile_texte">Le luxe de prendre soin de vous, sans sortir de chez vous. Découvrez les professionnels qui se déplacent dans votre commune.</p><button class="btn" type="button" onclick="S.home=true;S.cat='';S.commune='';showPage('recherche')"><span data-edit="domicile_bouton">Trouver un soin à domicile</span></button></div>
+        <figure class="at-home-visual"><img data-edit-img="domicile_image" src="beautyme-2.webp" alt="Un couple accueille une esthéticienne en blouse blanche dans une résidence moderne et luxueuse aux grandes colonnes." loading="lazy" width="1536" height="1024"></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Recherche ═══ -->
+  <section class="page" id="page-recherche">
+    <div class="filters"><div class="wrap">
+      <div class="row">
+        <div class="seg" id="f-terr" role="group" aria-label="Territoire"></div>
+        <label class="sr" for="f-com">Commune</label><select id="f-com" onchange="S.commune=this.value;renderResults()"></select>
+        <label class="sr" for="f-day">Date</label><select id="f-day" onchange="S.day=this.value;renderResults()"></select>
+        <label class="toggle" for="f-home"><input type="checkbox" id="f-home" onchange="S.home=this.checked;syncCommunes();renderResults()"> À domicile</label>
+      </div>
+      <div class="hscroll" id="f-cats" style="margin-top:10px" role="group" aria-label="Univers"></div>
+    </div></div>
+    <div class="wrap">
+      <div class="res-h"><h2 id="res-title"></h2><p class="note" id="res-count" aria-live="polite"></p></div>
+      <div class="cards" id="cards"></div>
+    </div>
+  </section>
+
+  <!-- ═══ Fiche salon ═══ -->
+  <section class="page" id="page-salon">
+    <div class="s-band"><div class="wrap" id="s-head"></div></div>
+    <div class="wrap s-grid">
+      <div id="s-main"></div>
+      <aside class="book" id="book" aria-label="Réservation"></aside>
+    </div>
+    <div class="bookbar" id="bookbar"></div>
+  </section>
+
+  <!-- ═══ Mes rendez-vous ═══ -->
+  <section class="page" id="page-rdv">
+    <div class="wrap sec">
+      <div class="sec-h"><h2>Mes rendez-vous</h2><p class="note">Enregistrés sur cet appareil pour la démonstration</p></div>
+      <div class="cards" id="rdv-list"></div>
+    </div>
+  </section>
+
+  <!-- ═══ Espace pro ═══ -->
+  <section class="page" id="page-pro">
+    <div class="wrap sec">
+      <div class="sec-h">
+        <div><p class="eyebrow">Espace professionnel</p><h2>Agenda du jour</h2></div>
+        <div class="row" style="display:flex;gap:10px;flex-wrap:wrap">
+          <div class="field" style="margin:0;min-width:220px"><label for="p-salon">Établissement</label><select id="p-salon" onchange="P.salon=this.value;renderPro()"></select></div>
+          <div class="field" style="margin:0;min-width:170px"><label for="p-day">Date</label><select id="p-day" onchange="P.day=this.value;renderPro()"></select></div>
+        </div>
+      </div>
+      <div class="kpis" id="p-kpis"></div>
+      <div class="tl-wrap"><div class="tl" id="p-tl"></div></div>
+      <div class="legend">
+        <span><i style="background:var(--mine)"></i>Réservé via BeautyMe</span>
+        <span><i style="background:var(--busy)"></i>Rendez-vous existant</span>
+        <span><i style="background:var(--pose)"></i>Temps de pose : collaborateur disponible</span>
+        <span><i style="background:var(--surface-2);border:1px solid var(--line)"></i>Hors horaires</span>
+      </div>
+    </div>
+  </section>
+  <!-- ═══ Espace partenaire ═══ -->
+  <section class="page" id="page-partenaire">
+    <div class="wrap sec" id="pa-root"></div>
+  </section>
+
+  <!-- ═══ Administration ═══ -->
+  <section class="page" id="page-admin">
+    <div class="wrap sec" id="ad-root"></div>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  <div class="footer-top"><div class="footer-brand"><a class="brand" href="#accueil" onclick="showPage('accueil')"><h1>Beauty<i>Me</i></h1><span>Antilles · Guyane</span></a><p data-edit="pied_texte">Votre beauté, votre moment.<br>Les savoir-faire d’ici, à portée de main.</p></div>
+  <div class="footer-links"><div><strong>Votre moment beauté</strong><a href="#recherche" onclick="S.home=false;showPage('recherche')">Trouver un établissement</a><a href="#recherche" onclick="S.home=true;showPage('recherche')">Les soins à domicile</a><a href="#rdv" onclick="showPage('rdv')">Mes rendez-vous</a></div><div><strong>Professionnels</strong><a href="#partenaire" onclick="showPage('partenaire')">Proposer mes prestations</a><a href="#pro" onclick="showPage('pro')">Agenda pro</a><a href="#admin" onclick="showPage('admin')">Administration</a></div><div><strong>Nos territoires</strong><a href="#recherche" onclick="S.t='MQ';S.commune='';showPage('recherche')">Martinique 972</a><a href="#recherche" onclick="S.t='GP';S.commune='';showPage('recherche')">Guadeloupe 971</a><a href="#recherche" onclick="S.t='GF';S.commune='';showPage('recherche')">Guyane 973</a></div></div></div>
+  <div class="footer-bottom"><p>© BeautyMe · La beauté, à votre rythme.</p><p><span class="demo-dot"></span>Prototype · données de démonstration, établissements fictifs · visuels illustratifs</p></div>
+</div></footer>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+const DATA=/*__DATA__*/null;
+const CATEGORY_PHOTOS={"coiffure": "beautyme-3.webp", "tresses-locks": "beautyme-4.webp", "barbier": "beautyme-5.webp", "ongles": "beautyme-6.webp", "esthetique": "beautyme-7.webp", "bien-etre": "beautyme-8.webp"};
+const ARROW_ICON="<svg class=\"\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg>";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+/* ═══════════ Moteur de créneaux (miroir de api/app/engine.py) ═══════════ */
+const STEP=15, LEAD=60;
+const ceil15=m=>Math.ceil(m/STEP)*STEP;
+function merge(ivs){const o=[];for(const [a,b] of [...ivs].sort((x,y)=>x[0]-y[0]||x[1]-y[1])){if(o.length&&a<=o[o.length-1][1])o[o.length-1][1]=Math.max(o[o.length-1][1],b);else o.push([a,b])}return o}
+const isFree=(busy,[a,b])=>!busy.some(([x,y])=>x<b&&a<y);
+function activeSegs(v,start){if(!v.pose)return[[start,start+v.dur]];const[o,l]=v.pose;return[[start,start+o],[start+o+l,start+v.dur]]}
+function buildPlan(salon,ids,mode,commune){
+  if(!ids.length)throw Error("Choisissez au moins une prestation.");
+  const svcs=ids.map(i=>salon.services.find(v=>v.id===i));
+  if(svcs.some(v=>!v.online))throw Error("Une des prestations se réserve uniquement par téléphone.");
+  let travel=0;
+  if(mode==="domicile"){
+    if(svcs.some(v=>!v.home))throw Error("Une des prestations n'est pas proposée à domicile.");
+    if(!(commune in salon.zones))throw Error(salon.name+" ne se déplace pas à "+(commune||"cette adresse")+".");
+    travel=ceil15(salon.zones[commune]);
+  }
+  const act=[];let c=0;
+  if(travel){act.push([0,travel]);c=travel}
+  for(const v of svcs){act.push(...activeSegs(v,c));c+=v.dur}
+  if(travel){act.push([c,c+travel]);c+=travel}
+  return{active:merge(act),span:c,travel};
+}
+function eligible(salon,ids,mode){return salon.staff.filter(p=>ids.every(i=>p.skills.includes(i))&&(mode==="salon"||p.home))}
+function shifts(p,day){return p.hours[String(weekday(day))]||[]}
+function findSlots(salon,ids,day,busy,{staffId=null,mode="salon",commune=null,now=true}={}){
+  const plan=buildPlan(salon,ids,mode,commune);
+  let pool=eligible(salon,ids,mode);
+  if(staffId)pool=pool.filter(p=>p.id===staffId);
+  if(!pool.length)return[];
+  const tz=DATA.territories[salon.t].tz;let floor=0;
+  if(now){const t=todayIn(tz);if(t>day)return[];if(t===day)floor=nowMinIn(tz)+LEAD}
+  floor=ceil15(floor);
+  const nb={},load={};
+  for(const p of pool){nb[p.id]=merge(busy[p.id]||[]);load[p.id]=nb[p.id].reduce((s,[a,b])=>s+b-a,0)}
+  pool=[...pool].sort((a,b)=>load[a.id]-load[b.id]||(a.id<b.id?-1:1));
+  const all=pool.flatMap(p=>shifts(p,day));if(!all.length)return[];
+  const lo=Math.min(...all.map(x=>x[0])),hi=Math.max(...all.map(x=>x[1]));
+  const out=[];
+  for(let t=Math.max(lo,floor);t<=hi-plan.span;t+=STEP){
+    const segs=plan.active.map(([a,b])=>[t+a,t+b]);
+    for(const p of pool){
+      if(!shifts(p,day).some(([s,e])=>s<=t&&t+plan.span<=e))continue;
+      if(segs.every(g=>isFree(nb[p.id],g))){out.push({start:t,end:t+plan.span,staff:p.id,segs});break}
+    }
+  }
+  return out;
+}
+/* Occupation de démonstration : FNV-1a + mulberry32, identique au Python */
+function fnv1a(s){let h=0x811C9DC5;for(const c of new TextEncoder().encode(s)){h^=c;h=Math.imul(h,0x01000193)>>>0}return h}
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function demoBusy(salon,p,day){
+  const r=mulberry32(fnv1a(salon.slug+"|"+p.id+"|"+day)),out=[];
+  for(const [a,b] of shifts(p,day)){let t=a;while(t<b){if(r()<0.3){const ln=(2+Math.floor(r()*6))*STEP;out.push([t,Math.min(b,t+ln)]);t+=ln}else t+=(1+Math.floor(r()*3))*STEP}}
+  return out;
+}
+function busyFor(salon,day){
+  const m={};for(const p of salon.staff)m[p.id]=demoBusy(salon,p,day);
+  for(const b of BOOKINGS)if(b.salon===salon.slug&&b.day===day&&b.status!=="cancelled")(m[b.staff]=m[b.staff]||[]).push(...b.segs);
+  return m;
+}
+
+/* ═══════════ Temps local des territoires ═══════════ */
+function partsIn(tz){const o={};for(const p of new Intl.DateTimeFormat("en-CA",{timeZone:tz,year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).formatToParts(new Date()))o[p.type]=p.value;return o}
+function todayIn(tz){const o=partsIn(tz);return o.year+"-"+o.month+"-"+o.day}
+function nowMinIn(tz){const o=partsIn(tz);return +o.hour*60+ +o.minute}
+const dUTC=iso=>new Date(iso+"T12:00:00Z");
+const weekday=iso=>(dUTC(iso).getUTCDay()+6)%7;
+function addDays(iso,n){const d=dUTC(iso);d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10)}
+const fmtD=new Intl.DateTimeFormat("fr-FR",{weekday:"long",day:"numeric",month:"long",timeZone:"UTC"});
+const fmtWd=new Intl.DateTimeFormat("fr-FR",{weekday:"short",timeZone:"UTC"});
+const fmtMo=new Intl.DateTimeFormat("fr-FR",{month:"short",timeZone:"UTC"});
+const hm=m=>String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0");
+function dur(m){const h=Math.floor(m/60),r=m%60;return h?(h+" h"+(r?" "+String(r).padStart(2,"0"):"")):r+" min"}
+function eur(c){if(c==null)return"Sur devis";return new Intl.NumberFormat("fr-FR",{style:"currency",currency:"EUR",minimumFractionDigits:c%100?2:0}).format(c/100)}
+function dayLabel(iso,tz){const t=todayIn(tz);if(iso===t)return"Aujourd'hui";if(iso===addDays(t,1))return"Demain";const s=fmtD.format(dUTC(iso));return s[0].toUpperCase()+s.slice(1)}
+
+/* ═══════════ État ═══════════ */
+const KEY="beautyme.bookings.v1";
+let BOOKINGS=[];
+try{BOOKINGS=JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){BOOKINGS=[]}
+function saveBookings(){try{localStorage.setItem(KEY,JSON.stringify(BOOKINGS))}catch(e){}}
+const guessT=()=>{try{const z=Intl.DateTimeFormat().resolvedOptions().timeZone;return z==="America/Cayenne"?"GF":z==="America/Guadeloupe"?"GP":"MQ"}catch(e){return"MQ"}};
+const S={t:guessT(),cat:"",commune:"",day:"",home:false};
+let B=null; // réservation en cours
+const salonBy=slug=>DATA.salons.find(s=>s.slug===slug);
+const tzOf=t=>DATA.territories[t].tz;
+
+/* ═══════════ Navigation (standard mobile) ═══════════ */
+const PAGES=["accueil","recherche","salon","rdv","pro","partenaire","admin"];
+function openNav(){$("sidebar").classList.add("open");$("backdrop").classList.add("on");document.body.classList.add("nav-open");$("mb-btn").setAttribute("aria-expanded","true");$("mb-btn").textContent="Fermer";const cur=document.querySelector("#sidebar a.active")||document.querySelector("#sidebar a");if(cur){try{cur.focus({preventScroll:true})}catch(e){cur.focus()}}}
+function closeNav(){$("sidebar").classList.remove("open");$("backdrop").classList.remove("on");document.body.classList.remove("nav-open");$("mb-btn").setAttribute("aria-expanded","false");$("mb-btn").textContent="Menu"}
+function toggleNav(){$("sidebar").classList.contains("open")?closeNav():openNav()}
+function navKey(e,id){if(e.key==="Enter"||e.key===" "){e.preventDefault();showPage(id)}}
+function showPage(id,opts={}){
+  if(id==="salon"&&!(opts.slug||(B&&B.slug)))id="accueil";
+  if(!PAGES.includes(id)||!$("page-"+id))id="accueil";
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  $("page-"+id).classList.add("active");
+  document.querySelectorAll("#sidebar a").forEach(a=>a.classList.toggle("active",a.dataset.page===id||(id==="salon"&&a.dataset.page==="recherche")));
+  closeNav();
+  let label;
+  if(id==="salon"){openSalon(opts.slug||B.slug);label=B.salon.name}
+  else{const link=document.querySelector('#sidebar a[data-page="'+id+'"]');label=(link&&link.dataset.label)||({admin:"Administration"})[id]||"Accueil"}
+  const t=$("mb-title");if(t)t.textContent=label;
+  if(id==="recherche")renderSearch();
+  if(id==="rdv")renderRdv();
+  if(id==="pro")renderPro();
+  if(id==="partenaire")renderPartner();
+  if(id==="admin")renderAdmin();
+  if(id==="accueil")renderHome();
+  const h=id==="salon"?"salon-"+B.slug:id;
+  if(location.hash.slice(1)!==h){try{history.replaceState(null,"","#"+h)}catch(e){}}
+  if(typeof window.scrollTo==="function")try{window.scrollTo(0,0)}catch(e){}
+}
+function route(){let h=decodeURIComponent(location.hash.slice(1));if(h==="validation"){AD.tab="demandes";h="admin"}if(h.startsWith("salon-")&&salonBy(h.slice(6)))showPage("salon",{slug:h.slice(6)});else showPage(h||"accueil")}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeNav()});
+if(typeof window.matchMedia==="function"){const wide=window.matchMedia("(min-width: 901px)");const onWide=e=>{if(e.matches)closeNav()};if(wide.addEventListener)wide.addEventListener("change",onWide);else if(wide.addListener)wide.addListener(onWide)}else{window.addEventListener("resize",()=>{if(window.innerWidth>900)closeNav()})}
+let x0=null;
+document.addEventListener("touchstart",e=>{x0=e.touches[0].clientX},{passive:true});
+document.addEventListener("touchend",e=>{if(x0===null||!$("sidebar").classList.contains("open")){x0=null;return}if(e.changedTouches[0].clientX-x0<-55)closeNav();x0=null},{passive:true});
+window.addEventListener("hashchange",route);
+
+function toast(msg){const t=$("toast");t.textContent=msg;t.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>{t.hidden=true},2600)}
+
+/* ═══════════ Accueil ═══════════ */
+const isLive=s=>!(ADB.inactive||[]).includes(s.slug);
+function communesOf(t){return[...(DATA.pro.communes[t]||[])].sort((a,b)=>a.localeCompare(b,"fr"))}
+function dayOptions(tz,n=14){const t=todayIn(tz);return Array.from({length:n},(_,i)=>addDays(t,i))}
+function fillSelect(el,opts,val){el.innerHTML=opts.map(([v,l])=>'<option value="'+esc(v)+'"'+(v===val?" selected":"")+">"+esc(l)+"</option>").join("")}
+function renderHome(){
+  $("terr").innerHTML=Object.entries(DATA.territories).map(([k,v])=>'<button type="button" aria-pressed="'+(k===S.t)+'" onclick="setTerr(\''+k+'\')"><span class="tn">'+v.name+'</span><span class="tz num">'+hm(nowMinIn(v.tz))+" · "+v.utc+"</span></button>").join("");
+  fillSelect($("hs-cat"),[["","Toutes les prestations"],...Object.entries(DATA.categories)],S.cat);
+  fillSelect($("hs-com"),[["","Toutes les communes"],...communesOf(S.t,S.home).map(c=>[c,c])],S.commune);
+  fillSelect($("hs-day"),[["","Dès que possible"],...dayOptions(tzOf(S.t)).map(d=>[d,dayLabel(d,tzOf(S.t))])],S.day);
+  $("hs-home").checked=S.home;
+  $("cats-where").textContent=DATA.territories[S.t].name;
+  $("cats").innerHTML=Object.entries(DATA.categories).map(([k,v])=>{const n=DATA.salons.filter(s=>isLive(s)&&s.t===S.t&&s.cat===k).length;return'<button type="button" onclick="S.cat=\''+k+'\';showPage(\'recherche\')"><span class="cat-photo"><img src="'+photoOf(k)+'" alt="" loading="lazy" width="320" height="400"><span class="cat-arrow">'+ARROW_ICON+'</span></span><span class="cn">'+v+'</span><span class="cc">'+(n?n+" établissement"+(n>1?"s":""):"Bientôt")+"</span></button>"}).join("");
+}
+function setTerr(k){S.t=k;S.commune="";S.day="";renderHome();tickClock()}
+$("hs-home").addEventListener("change",e=>{S.home=e.target.checked;fillSelect($("hs-com"),[["","Toutes les communes"],...communesOf(S.t,S.home).map(c=>[c,c])],"")});
+function runHomeSearch(){S.cat=$("hs-cat").value;S.commune=$("hs-com").value;S.day=$("hs-day").value;S.home=$("hs-home").checked;showPage("recherche")}
+function tickClock(){const v=DATA.territories[S.t];$("clock").innerHTML=v.name+" <b>"+hm(nowMinIn(v.tz))+"</b> "+v.utc}
+
+/* ═══════════ Recherche ═══════════ */
+function syncCommunes(){const list=communesOf(S.t,S.home);if(S.commune&&!list.includes(S.commune))S.commune="";fillSelect($("f-com"),[["",S.home?"Partout où l'on se déplace":"Toutes les communes"],...list.map(c=>[c,(S.home?"Chez moi à ":"")+c])],S.commune)}
+function renderSearch(){
+  $("f-terr").innerHTML=Object.entries(DATA.territories).map(([k,v])=>'<button type="button" aria-pressed="'+(k===S.t)+'" onclick="S.t=\''+k+'\';S.commune=\'\';S.day=\'\';renderSearch()">'+v.name+"</button>").join("");
+  $("f-cats").innerHTML='<button class="chip" type="button" aria-pressed="'+(!S.cat)+'" onclick="S.cat=\'\';renderSearch()">Tout</button>'+Object.entries(DATA.categories).map(([k,v])=>'<button class="chip" type="button" aria-pressed="'+(S.cat===k)+'" onclick="S.cat=\''+k+'\';renderSearch()">'+v+"</button>").join("");
+  fillSelect($("f-day"),[["","Dès que possible"],...dayOptions(tzOf(S.t)).map(d=>[d,dayLabel(d,tzOf(S.t))])],S.day);
+  $("f-home").checked=S.home;syncCommunes();renderResults();
+}
+function nextSlot(s,fromDay,home,commune){
+  const mode=home?"domicile":"salon";const svcs=[...s.services].filter(v=>v.online&&(!home||v.home)).sort((a,b)=>a.dur-b.dur);
+  const tz=tzOf(s.t);const start=fromDay||todayIn(tz);const span=fromDay?1:7;
+  for(let i=0;i<span;i++){const d=addDays(start,i);const busy=busyFor(s,d);
+    for(const v of svcs){try{const sl=findSlots(s,[v.id],d,busy,{mode,commune:home?(commune||Object.keys(s.zones)[0]):null});if(sl.length)return{day:d,min:sl[0].start}}catch(e){}}}
+  return null;
+}
+function renderResults(){
+  const list=DATA.salons.filter(s=>isLive(s)&&s.t===S.t&&(!S.cat||s.cat===S.cat)&&(S.home?(Object.keys(s.zones).length&&(!S.commune||S.commune in s.zones)):(!S.commune||s.commune===S.commune)));
+  const rows=list.map(s=>({s,n:nextSlot(s,S.day,S.home,S.commune)})).sort((a,b)=>(!!b.n-!!a.n)||(a.n&&b.n?(a.n.day+hm(a.n.min)).localeCompare(b.n.day+hm(b.n.min)):0)||b.s.rating-a.s.rating);
+  const where=S.commune?(S.home?"chez vous à "+S.commune:"à "+S.commune):"en "+DATA.territories[S.t].name;
+  $("res-title").textContent=(S.cat?DATA.categories[S.cat]:"Beauté et bien-être")+" "+where;
+  $("res-count").textContent=rows.length+" établissement"+(rows.length>1?"s":"")+(S.day?" · "+dayLabel(S.day,tzOf(S.t)).toLowerCase():"");
+  $("cards").innerHTML=rows.length?rows.map(({s,n})=>{
+    const ini=s.name.replace(/^(L'|La |Le |Les )/,"").split(/\s+/).slice(0,2).map(w=>w[0]).join("");
+    const tags=[Object.keys(s.zones).length?'<span class="tag">À domicile</span>':"",s.deposit?'<span class="tag">Acompte '+s.deposit+" %</span>":""].join("");
+    const nx=n?'Prochain créneau <b>'+dayLabel(n.day,tzOf(s.t)).toLowerCase()+" à "+hm(n.min)+"</b>":S.day?"Complet ce jour-là":"Aucun créneau cette semaine";
+    return'<article class="card"><div class="mono c-'+s.cat+'"><img src="'+photoOf(s.cat)+'" alt="" loading="lazy"><small>'+esc(DATA.categories[s.cat])+"</small><b>"+esc(ini)+'</b></div><div style="min-width:0"><h3>'+esc(s.name)+'</h3><div class="meta"><span>'+esc(s.commune)+'</span><span><b class="num">'+(s.reviews?String(s.rating).replace(".",",")+'</b> / 5 · <span class="num">'+s.reviews+"</span> avis":"Nouveau</b> sur BeautyMe")+"</span><span>"+"€".repeat(s.price)+'</span></div><div class="tags">'+tags+'</div><p class="next">'+nx+'</p></div><div class="act"><button class="btn" type="button" onclick="showPage(\'salon\',{slug:\''+s.slug+'\'})">Réserver</button></div></article>';
+  }).join(""):'<div class="empty"><p>Aucun établissement ne correspond. Élargissez la commune ou retirez le filtre « À domicile ».</p></div>';
+}
+
+/* ═══════════ Fiche salon & réservation ═══════════ */
+function openSalon(slug){
+  const salon=salonBy(slug);const tz=tzOf(salon.t);
+  if(!B||B.slug!==slug)B={slug,salon,tz,sel:[],mode:"salon",commune:S.home&&S.commune in salon.zones?S.commune:null,staff:null,day:S.day||todayIn(tz),slot:null,step:"choose",hold:null,otp:false,error:""};
+  if(S.home&&Object.keys(salon.zones).length&&!B.sel.length){B.mode="domicile";B.commune=B.commune||Object.keys(salon.zones)[0]}
+  const T=DATA.territories[salon.t];
+  $("s-head").innerHTML='<div class="crumbs"><button type="button" onclick="S.t=\''+salon.t+'\';showPage(\'recherche\')">'+T.name+'</button><span>›</span><button type="button" onclick="S.t=\''+salon.t+'\';S.cat=\''+salon.cat+'\';showPage(\'recherche\')">'+esc(DATA.categories[salon.cat])+"</button><span>›</span><span>"+esc(salon.commune)+'</span></div><h1>'+esc(salon.name)+'</h1><div class="meta"><span>'+esc(salon.address)+'</span><span><b class="num">'+(salon.reviews?String(salon.rating).replace(".",",")+'</b> / 5 · '+salon.reviews+" avis vérifiés":"Nouveau</b> sur BeautyMe")+"</span><span>"+"€".repeat(salon.price)+"</span><span>Heure locale <b class=\"num\">"+hm(nowMinIn(tz))+"</b> "+T.utc+"</span></div>";
+  const secs=[...new Set(salon.services.map(v=>v.sec))];
+  const days=["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"];
+  const hrs=days.map((d,i)=>{const iv=merge(salon.staff.flatMap(p=>p.hours[String(i)]||[]));return"<tr><td>"+d+'</td><td class="num">'+(iv.length?iv.map(([a,b])=>hm(a)+" – "+hm(b)).join(", "):"Fermé")+"</td></tr>"}).join("");
+  const zones=Object.entries(salon.zones);
+  $("s-main").innerHTML=secs.map(sec=>'<div class="menu-sec"><h2>'+esc(sec)+"</h2>"+salon.services.filter(v=>v.sec===sec).map(v=>'<div class="svc"><div style="min-width:0"><h3>'+esc(v.name)+"</h3>"+(v.desc?"<p>"+esc(v.desc)+"</p>":"")+(v.pose?'<p>Dont '+dur(v.pose[1])+" de pose</p>":"")+(v.home?'<p>Aussi à domicile</p>':"")+'</div><div class="pr"><b class="num">'+(v.from?"dès ":"")+eur(v.price)+'</b><span class="num">'+dur(v.dur)+"</span></div>"+(v.online&&salon.staff.some(p=>p.skills.includes(v.id))?'<button class="btn ghost" type="button" id="sv-'+v.id+'" aria-pressed="false" onclick="toggleSvc(\''+v.id+'\')">Choisir</button>':'<span class="phone">Sur appel au salon</span>')+"</div>").join("")+"</div>").join("")
+   +'<div class="info-grid"><div><h2>Horaires</h2><table class="hours"><tbody>'+hrs+'</tbody></table></div><div><h2>L\'équipe</h2><div class="team">'+salon.staff.map(p=>'<span class="tag">'+esc(p.name)+(p.home?" · se déplace":"")+"</span>").join("")+'</div><h2 style="margin-top:24px">À propos</h2><p>'+esc(salon.about)+"</p>"+(zones.length?'<h2 style="margin-top:24px">À domicile</h2><p>'+zones.map(([c,m])=>esc(c)+' <span class="note">('+m+" min)</span>").join(", ")+"</p>":"")+"</div></div>";
+  syncSvcButtons();renderBook();
+}
+function toggleSvc(id){if(B.step!=="choose")return;const i=B.sel.indexOf(id);i<0?B.sel.push(id):B.sel.splice(i,1);B.slot=null;B.error="";
+  if(B.mode==="domicile"&&B.sel.some(x=>!B.salon.services.find(v=>v.id===x).home)){B.mode="salon";toast("Prestation non disponible à domicile : réservation au salon.")}
+  if(B.staff&&!eligible(B.salon,B.sel,B.mode).some(p=>p.id===B.staff))B.staff=null;
+  syncSvcButtons();renderBook()}
+function syncSvcButtons(){for(const v of B.salon.services){const b=$("sv-"+v.id);if(b){const on=B.sel.includes(v.id);b.setAttribute("aria-pressed",on);b.textContent=on?"Retirer":"Choisir"}}}
+function setB(k,v){B[k]=v;if(k!=="slot")B.slot=null;B.error="";if(k==="mode"&&v==="domicile"&&!B.commune)B.commune=Object.keys(B.salon.zones)[0];if((k==="mode"||k==="commune")&&B.staff&&!eligible(B.salon,B.sel,B.mode).some(p=>p.id===B.staff))B.staff=null;renderBook()}
+
+function renderBook(){
+  if(!isLive(B.salon)){$("book").innerHTML='<div class="book-h"><h2>Réservation indisponible</h2></div><div class="step"><p>Cet établissement n\'accepte plus de réservations pour le moment.</p><p class="note" style="margin-top:8px">Les rendez-vous déjà confirmés restent valables.</p></div>';$("bookbar").innerHTML="";return}
+  const s=B.salon,el=$("book"),svcs=B.sel.map(i=>s.services.find(v=>v.id===i));
+  const total=svcs.reduce((a,v)=>a+(v.price||0),0),anyFrom=svcs.some(v=>v.from||v.price==null);
+  const dep=Math.floor(total*s.deposit/100);
+  let plan=null,planErr="";try{if(svcs.length)plan=buildPlan(s,B.sel,B.mode,B.commune)}catch(e){planErr=e.message}
+  const head='<div class="book-h"><h2>Votre rendez-vous</h2><p>Confirmation immédiate · heure locale '+DATA.territories[s.t].utc+"</p></div>";
+  // barre mobile
+  $("bookbar").innerHTML=B.step==="choose"?'<span><b>'+(svcs.length?svcs.length+" prestation"+(svcs.length>1?"s":"")+" · "+(anyFrom?"dès ":"")+eur(total):"Choisissez vos prestations")+"</b>"+(plan?dur(plan.span)+(plan.travel?" trajets compris":""):"Puis le jour et l'heure")+'</span><button class="btn" type="button" onclick="document.getElementById(\'book\').scrollIntoView({behavior:\'smooth\'})"'+(svcs.length?"":" disabled")+">Choisir l'heure</button>":"";
+  if(B.step==="done"){el.innerHTML=head+doneView();$("bookbar").innerHTML="";return}
+  if(B.step==="details"){el.innerHTML=head+detailsView(svcs,total,dep,anyFrom);return}
+  const basket=svcs.length?'<ul class="basket">'+svcs.map(v=>'<li><span>'+esc(v.name)+'</span><span class="num">'+(v.from?"dès ":"")+eur(v.price)+"</span></li>").join("")+'</ul><div class="totals"><span>Total'+(plan?" · "+dur(plan.span):"")+'</span><span class="num">'+(anyFrom?"dès ":"")+eur(total)+"</span></div>"+(plan&&plan.travel?'<p class="hint">Dont '+dur(plan.travel*2)+" de trajet aller-retour, bloqués dans l'agenda du professionnel.</p>":"")+(s.deposit?'<p class="hint">Acompte de '+s.deposit+" % à la réservation : "+eur(dep)+", déduit le jour J.</p>":""):'<p class="note">Sélectionnez une ou plusieurs prestations dans la carte.</p>';
+  let h=head+'<div class="step"><span class="lbl">Prestations</span>'+basket+"</div>";
+  if(!svcs.length){el.innerHTML=h;return}
+  const zones=Object.keys(s.zones),homeAllowed=zones.length&&svcs.every(v=>v.home);
+  h+='<div class="step"><span class="lbl">Lieu</span><div class="seg" role="group" aria-label="Lieu"><button type="button" aria-pressed="'+(B.mode==="salon")+'" onclick="setB(\'mode\',\'salon\')">Au salon</button><button type="button" aria-pressed="'+(B.mode==="domicile")+'" onclick="setB(\'mode\',\'domicile\')"'+(homeAllowed?"":" disabled")+">À domicile</button></div>";
+  if(B.mode==="domicile")h+='<div class="field" style="margin:12px 0 0"><label for="b-com">Commune du rendez-vous</label><select id="b-com" onchange="setB(\'commune\',this.value)">'+zones.map(c=>'<option value="'+esc(c)+'"'+(c===B.commune?" selected":"")+">"+esc(c)+" · "+s.zones[c]+" min de trajet</option>").join("")+"</select></div>";
+  else if(!zones.length)h+='<p class="hint">Cet établissement ne propose pas de prestations à domicile.</p>';
+  else if(!homeAllowed)h+='<p class="hint">Une des prestations choisies se fait uniquement au salon.</p>';
+  h+="</div>";
+  if(planErr){el.innerHTML=h+'<div class="step"><p class="err">'+esc(planErr)+"</p></div>";return}
+  const pool=eligible(s,B.sel,B.mode);
+  h+='<div class="step"><span class="lbl">Avec</span><div class="hscroll"><button class="chip" type="button" aria-pressed="'+(!B.staff)+'" onclick="setB(\'staff\',null)">Sans préférence</button>'+pool.map(p=>'<button class="chip" type="button" aria-pressed="'+(B.staff===p.id)+'" onclick="setB(\'staff\',\''+p.id+'\')">'+esc(p.name)+"</button>").join("")+"</div>"+(pool.length?"":'<p class="err" style="margin-top:10px">Aucun membre de l\'équipe ne réalise cette combinaison'+(B.mode==="domicile"?" à domicile":"")+". Réservez-les séparément.</p>")+"</div>";
+  if(!pool.length){el.innerHTML=h;return}
+  const days=dayOptions(B.tz,21);
+  if(!days.includes(B.day))B.day=days[0];
+  const open=d=>(B.staff?pool.filter(p=>p.id===B.staff):pool).some(p=>shifts(p,d).length);
+  h+='<div class="step"><span class="lbl">Jour</span><div class="days">'+days.map(d=>'<button class="day" type="button" aria-pressed="'+(d===B.day)+'" aria-label="'+esc(dayLabel(d,B.tz))+'" onclick="setB(\'day\',\''+d+'\')"'+(open(d)?"":" disabled")+"><small>"+fmtWd.format(dUTC(d)).replace(".","")+"</small><b class=\"num\">"+dUTC(d).getUTCDate()+"</b><small>"+fmtMo.format(dUTC(d)).replace(".","")+"</small></button>").join("")+"</div>";
+  const slots=findSlots(s,B.sel,B.day,busyFor(s,B.day),{staffId:B.staff,mode:B.mode,commune:B.commune});
+  const groups=[["Matin",0,720],["Après-midi",720,1080],["Soir",1080,1440]];
+  h+='<div aria-live="polite">'+(slots.length?groups.map(([n,a,b])=>{const g=slots.filter(x=>x.start>=a&&x.start<b);return g.length?'<div class="slot-g"><h4>'+n+'</h4><div class="slots">'+g.map(x=>'<button class="slot" type="button" aria-pressed="'+(B.slot&&B.slot.start===x.start)+'" onclick="pickSlot('+x.start+')">'+hm(x.start)+"</button>").join("")+"</div></div>":""}).join(""):'<p class="note" style="margin-top:12px">'+(open(B.day)?"Complet ce jour-là. Essayez un autre jour"+(B.staff?" ou « Sans préférence »":"")+".":"Fermé ce jour-là.")+"</p>")+"</div></div>";
+  if(B.slot){const p=s.staff.find(x=>x.id===B.slot.staff);h+='<div class="step"><p style="color:var(--ink);font-weight:700;margin-bottom:10px">'+esc(dayLabel(B.day,B.tz))+" · "+hm(B.slot.start)+" – "+hm(B.slot.end)+" avec "+esc(p.name)+'</p><button class="btn block" type="button" onclick="startHold()">Continuer</button></div>'}
+  el.innerHTML=h;
+}
+function pickSlot(start){const sl=findSlots(B.salon,B.sel,B.day,busyFor(B.salon,B.day),{staffId:B.staff,mode:B.mode,commune:B.commune}).find(x=>x.start===start);B.slot=sl||null;renderBook()}
+
+const HOLD_MS=10*60*1000;
+function startHold(){
+  // Revalidation au moment du blocage (équivalent du verrou / contrainte d'exclusion)
+  const ok=findSlots(B.salon,B.sel,B.day,busyFor(B.salon,B.day),{staffId:B.slot.staff,mode:B.mode,commune:B.commune}).some(x=>x.start===B.slot.start);
+  if(!ok){B.slot=null;toast("Ce créneau vient d'être pris. Choisissez-en un autre.");renderBook();return}
+  B.hold={id:"h"+Date.now().toString(36),exp:Date.now()+HOLD_MS};
+  BOOKINGS.push({id:B.hold.id,salon:B.slug,staff:B.slot.staff,day:B.day,start:B.slot.start,end:B.slot.end,segs:B.slot.segs,services:[...B.sel],mode:B.mode,commune:B.commune,status:"held",exp:B.hold.exp});
+  saveBookings();B.step="details";B.otp=false;B.error="";renderBook();tickHold();
+  document.getElementById("book").scrollIntoView({block:"start"});
+}
+function releaseHold(){if(!B||!B.hold)return;BOOKINGS=BOOKINGS.filter(b=>!(b.id===B.hold.id&&b.status==="held"));saveBookings();B.hold=null}
+function tickHold(){clearInterval(tickHold._i);tickHold._i=setInterval(()=>{const el=$("hold-t");if(!B||B.step!=="details"||!B.hold){clearInterval(tickHold._i);return}const left=B.hold.exp-Date.now();if(left<=0){releaseHold();B.step="choose";B.slot=null;clearInterval(tickHold._i);toast("Le créneau a été libéré après 10 minutes.");renderBook();return}if(el){const m=Math.floor(left/60000),s=Math.floor(left%60000/1000);el.textContent=m+":"+String(s).padStart(2,"0");el.parentElement.parentElement.classList.toggle("late",left<120000)}},1000)}
+function backToChoose(){releaseHold();B.step="choose";renderBook()}
+function detailsView(svcs,total,dep,anyFrom){
+  const s=B.salon,p=s.staff.find(x=>x.id===B.slot.staff),pref={MQ:"+596",GP:"+590",GF:"+594"}[s.t];
+  const v=id=>{const e=$(id);return e?e.value:""};
+  return'<div class="step"><div class="timer"><span>Créneau réservé pour vous</span><span><b id="hold-t">10:00</b> restantes</span></div>'
+   +'<dl class="recap" style="margin:0 0 14px;border:0"><div><dt>Quand</dt><dd>'+esc(dayLabel(B.day,B.tz))+", "+hm(B.slot.start)+"</dd></div><div><dt>Avec</dt><dd>"+esc(p.name)+"</dd></div><div><dt>Où</dt><dd>"+(B.mode==="domicile"?"À domicile, "+esc(B.commune):esc(s.address))+"</dd></div><div><dt>Total</dt><dd class=\"num\">"+(anyFrom?"dès ":"")+eur(total)+"</dd></div></dl>"
+   +(B.error?'<p class="err">'+esc(B.error)+"</p>":"")
+   +'<form onsubmit="event.preventDefault();submitDetails()" novalidate>'
+   +'<div class="field"><label for="c-name">Prénom</label><input id="c-name" autocomplete="given-name" value="'+esc(v("c-name"))+'"></div>'
+   +'<div class="field"><label for="c-tel">Téléphone mobile</label><div class="tel"><select id="c-pref" aria-label="Indicatif">'+["+596","+590","+594","+33"].map(x=>"<option"+(x===pref?" selected":"")+">"+x+"</option>").join("")+'</select><input id="c-tel" inputmode="tel" autocomplete="tel-national" placeholder="696 12 34 56"></div></div>'
+   +(B.mode==="domicile"?'<div class="field"><label for="c-addr">Adresse à '+esc(B.commune)+'</label><input id="c-addr" autocomplete="street-address" placeholder="Numéro, rue, résidence, repère"></div>':"")
+   +'<span class="lbl" style="display:block;margin-bottom:8px">Confirmation et rappel</span><div class="radio" role="radiogroup"><button type="button" class="chip" id="ch-wa" aria-pressed="true" onclick="setCh(\'wa\')">WhatsApp</button><button type="button" class="chip" id="ch-sms" aria-pressed="false" onclick="setCh(\'sms\')">SMS</button></div>'
+   +'<label class="check" for="c-cgu"><input type="checkbox" id="c-cgu"> J\'accepte les conditions de réservation et la politique d\'annulation : gratuite jusqu\'à 24 h avant'+(s.deposit?", acompte conservé au-delà":"")+".</label>"
+   +(B.otp?'<div class="field"><label for="c-otp">Code reçu par '+(B.ch==="sms"?"SMS":"WhatsApp")+'</label><input id="c-otp" inputmode="numeric" maxlength="4" autocomplete="one-time-code" placeholder="4 chiffres"></div><p class="note" style="margin:-4px 0 12px">Démonstration : saisissez 2026.</p>':"")
+   +'<button class="btn block" type="submit">'+(B.otp?(dep?"Confirmer et régler "+eur(dep)+" d'acompte":"Confirmer le rendez-vous"):"Recevoir mon code")+'</button></form>'
+   +'<div class="nav-btns" style="display:flex;margin-top:10px"><button class="btn ghost block" type="button" onclick="backToChoose()">Modifier le créneau</button></div></div>';
+}
+function setCh(c){B.ch=c==="sms"?"sms":"whatsapp";$("ch-wa").setAttribute("aria-pressed",c!=="sms");$("ch-sms").setAttribute("aria-pressed",c==="sms")}
+function submitDetails(){
+  const name=$("c-name").value.trim(),tel=$("c-tel").value.replace(/\D/g,""),addr=$("c-addr")?$("c-addr").value.trim():"";
+  const keep=()=>{const vals={n:name,t:$("c-tel").value,a:addr,p:$("c-pref").value,c:$("c-cgu").checked,o:$("c-otp")?$("c-otp").value:""};renderBook();$("c-name").value=vals.n;$("c-tel").value=vals.t;$("c-pref").value=vals.p;$("c-cgu").checked=vals.c;if($("c-addr"))$("c-addr").value=vals.a;if($("c-otp"))$("c-otp").value=vals.o;setCh(B.ch==="sms"?"sms":"wa");tickHold()};
+  if(!name){B.error="Indiquez votre prénom.";return keep()}
+  if(tel.length<9||tel.length>10){B.error="Numéro de mobile incomplet : 9 ou 10 chiffres attendus.";return keep()}
+  if(B.mode==="domicile"&&addr.length<5){B.error="Indiquez l'adresse du rendez-vous à domicile.";return keep()}
+  if(!$("c-cgu").checked){B.error="Acceptez les conditions de réservation pour continuer.";return keep()}
+  if(!B.otp){B.otp=true;B.error="";keep();toast("Code envoyé par "+(B.ch==="sms"?"SMS":"WhatsApp")+".");if($("c-otp"))$("c-otp").focus();return}
+  if($("c-otp").value.trim()!=="2026"){B.error="Code incorrect. Vérifiez le message reçu.";return keep()}
+  const b=BOOKINGS.find(x=>x.id===B.hold.id);
+  if(!b||Date.now()>B.hold.exp){B.error="Le créneau a expiré. Choisissez à nouveau.";backToChoose();return}
+  const total=B.sel.reduce((a,i)=>a+(B.salon.services.find(v=>v.id===i).price||0),0);
+  Object.assign(b,{status:"confirmed",exp:null,customer:{name,tel:$("c-pref").value+" "+tel,ch:B.ch||"whatsapp",addr},total,deposit:Math.floor(total*B.salon.deposit/100)});
+  saveBookings();B.done=b;B.step="done";clearInterval(tickHold._i);renderBook();toast("Rendez-vous confirmé.");
+}
+function doneView(){
+  const b=B.done,s=B.salon,p=s.staff.find(x=>x.id===b.staff);
+  return'<div class="done"><p class="eyebrow" style="color:var(--ok)">Confirmé</p><h3>À '+esc(dayLabel(b.day,B.tz).toLowerCase())+", "+esc(b.customer.name)+".</h3><p>Un récapitulatif part sur "+(b.customer.ch==="sms"?"SMS":"WhatsApp")+" au "+esc(b.customer.tel)+". Rappel la veille à 18:00.</p>"
+   +'<dl class="recap"><div><dt>Heure</dt><dd class="num">'+hm(b.start)+" – "+hm(b.end)+"</dd></div><div><dt>Avec</dt><dd>"+esc(p.name)+"</dd></div><div><dt>Lieu</dt><dd>"+(b.mode==="domicile"?esc(b.customer.addr)+", "+esc(b.commune):esc(s.address))+"</dd></div><div><dt>Prestations</dt><dd>"+b.services.map(i=>esc(s.services.find(v=>v.id===i).name)).join(", ")+'</dd></div><div><dt>Total</dt><dd class="num">'+eur(b.total)+"</dd></div>"+(b.deposit?'<div><dt>Acompte réglé</dt><dd class="num">'+eur(b.deposit)+"</dd></div>":"")+"</dl>"
+   +'<div style="display:grid;gap:8px;margin-top:16px"><button class="btn block" type="button" onclick="showPage(\'rdv\')">Voir mes rendez-vous</button><button class="btn ghost block" type="button" onclick="B=null;showPage(\'salon\',{slug:\''+s.slug+'\'})">Réserver un autre rendez-vous ici</button></div><p class="note" style="margin-top:12px">Démonstration : aucun message ni paiement réel.</p></div>';
+}
+
+/* ═══════════ Mes rendez-vous ═══════════ */
+let pendingCancel=null;
+function renderRdv(){
+  const list=BOOKINGS.filter(b=>b.status!=="held").sort((a,b)=>(a.day+hm(a.start)).localeCompare(b.day+hm(b.start)));
+  $("rdv-list").innerHTML=list.length?list.map(b=>{const s=salonBy(b.slug||b.salon),tz=tzOf(s.t),p=s.staff.find(x=>x.id===b.staff),c=b.status==="cancelled";
+    return'<article class="rdv'+(c?" cancelled":"")+'"><div class="when"><b class="num">'+hm(b.start)+"</b><span>"+esc(dayLabel(b.day,tz))+'</span></div><div style="min-width:0"><h3>'+esc(s.name)+"</h3><p>"+b.services.map(i=>esc(s.services.find(v=>v.id===i).name)).join(", ")+" · avec "+esc(p.name)+"</p><p>"+(b.mode==="domicile"?"À domicile, "+esc(b.commune):esc(s.address))+" · "+DATA.territories[s.t].name+"</p>"+(c?'<p><span class="tag">Annulé</span></p>':"")+"</div>"
+    +(c?"":pendingCancel===b.id?'<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="button" onclick="cancelRdv(\''+b.id+'\')">Confirmer l\'annulation</button><button class="btn ghost" type="button" onclick="pendingCancel=null;renderRdv()">Garder</button></div>':'<button class="btn ghost" type="button" onclick="pendingCancel=\''+b.id+'\';renderRdv()">Annuler</button>')+"</article>"}).join("")
+   :'<div class="empty"><p>Aucun rendez-vous pour l\'instant.</p><p style="margin-top:14px"><button class="btn" type="button" onclick="showPage(\'recherche\')">Trouver un créneau</button></p></div>';
+}
+function cancelRdv(id){const b=BOOKINGS.find(x=>x.id===id);if(b){b.status="cancelled";saveBookings()}pendingCancel=null;renderRdv();toast("Rendez-vous annulé. Le créneau est remis en ligne.")}
+
+/* ═══════════ Espace pro ═══════════ */
+const P={salon:"",day:""};
+function renderPro(){
+  if(!P.salon){const mine=BOOKINGS.find(b=>b.status==="confirmed");P.salon=mine?mine.salon:DATA.salons.find(s=>s.t===S.t).slug}
+  const s=salonBy(P.salon),tz=tzOf(s.t);const days=dayOptions(tz,14);if(!days.includes(P.day))P.day=days[0];
+  fillSelect($("p-salon"),Object.entries(DATA.territories).flatMap(([k,v])=>DATA.salons.filter(x=>x.t===k).map(x=>[x.slug,x.name+" · "+v.name])),P.salon);
+  fillSelect($("p-day"),days.map(d=>[d,dayLabel(d,tz)]),P.day);
+  const H0=7*60,H1=20*60,W=H1-H0,pct=m=>((Math.min(Math.max(m,H0),H1)-H0)/W*100).toFixed(3)+"%",wid=(a,b)=>((Math.min(b,H1)-Math.max(a,H0))/W*100).toFixed(3)+"%";
+  let open=0,booked=0,count=0,dep=0;
+  const mine=BOOKINGS.filter(b=>b.salon===s.slug&&b.day===P.day&&b.status!=="cancelled");
+  const rows=s.staff.map(p=>{
+    const sh=shifts(p,P.day),demo=demoBusy(s,p,P.day),my=mine.filter(b=>b.staff===p.id);
+    open+=sh.reduce((a,[x,y])=>a+y-x,0);booked+=merge([...demo,...my.flatMap(b=>b.segs)]).reduce((a,[x,y])=>a+y-x,0);count+=demo.length+my.length;
+    my.forEach(b=>{if(b.status==="confirmed")dep+=b.deposit||0});
+    const offs=[];let c=H0;for(const [a,b] of sh){if(a>c)offs.push([c,a]);c=Math.max(c,b)}if(c<H1)offs.push([c,H1]);
+    const blocks=demo.map(([a,b])=>'<div class="blk" style="left:'+pct(a)+";width:"+wid(a,b)+'" title="'+hm(a)+" – "+hm(b)+'">'+hm(a)+"</div>").join("")
+     +my.map(b=>{const poseIv=[];for(let i=1;i<b.segs.length;i++)poseIv.push([b.segs[i-1][1],b.segs[i][0]]);
+       return b.segs.map(([a,e])=>'<div class="blk mine" style="left:'+pct(a)+";width:"+wid(a,e)+'" title="'+esc((b.customer&&b.customer.name)||"Client")+'">'+esc((b.customer&&b.customer.name)||"En cours")+" · "+esc(s.services.find(v=>v.id===b.services[0]).name)+"</div>").join("")+poseIv.map(([a,e])=>'<div class="blk pose" style="left:'+pct(a)+";width:"+wid(a,e)+'">Pose</div>').join("")}).join("");
+    return'<div class="tl-row"><div class="who">'+esc(p.name)+"<small>"+(sh.length?sh.map(([a,b])=>hm(a)+"–"+hm(b)).join(" "):"Repos")+'</small></div><div class="lane">'+offs.map(([a,b])=>'<div class="off" style="left:'+pct(a)+";width:"+wid(a,b)+'"></div>').join("")+blocks+"</div></div>";
+  }).join("");
+  const ticks=Array.from({length:14},(_,i)=>H0+i*60).map(m=>'<span style="left:'+pct(m)+'">'+hm(m)+"</span>").join("");
+  $("p-tl").innerHTML='<div class="tl-axis"><div></div><div class="ticks">'+ticks+"</div></div>"+rows;
+  $("p-kpis").innerHTML='<div><span class="lbl">Taux d\'occupation</span><b>'+(open?Math.round(booked/open*100):0)+' %</b></div><div><span class="lbl">Rendez-vous</span><b>'+count+'</b></div><div><span class="lbl">Via BeautyMe</span><b>'+mine.filter(b=>b.status==="confirmed").length+'</b></div><div><span class="lbl">Acomptes encaissés</span><b>'+eur(dep)+"</b></div>";
+}
+
+/*__PARTNER__*/
+/*__ADMIN__*/
+
+/* ═══════════ Démarrage ═══════════ */
+BOOKINGS=BOOKINGS.filter(b=>!(b.status==="held"&&b.exp<Date.now()));saveBookings();
+tickClock();setInterval(tickClock,30000);
+route();
+</script>
+
+</body>
+</html>
