@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Administration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,800;0,9..144,900;1,9..144,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#FFFFFF;--cream:#F6F8FB;--sand:#EDF1F6;--line:#DCE3EC;
+  --black:#020407;--ink:#101826;--navy-900:#050D1B;--navy-800:#0B1B33;--navy-700:#10294B;--edge:#22324D;
+  --body:#2A3441;--gray:#4F5B6B;--on-dark:#FFFFFF;--on-dark-2:#DFE6F0;--on-dark-3:#BFCBDC;
+  --accent:#0B3F73;--accent-on-dark:#A8CBF2;
+  --err:#A3123F;--err-t:#FFE6EF;--ok:#08555F;--ok-t:#DDF6F8;--warn:#6B3A00;--warn-t:#FFF1DC;
+  --mag:#E8175D;--cya:#12A8B8;--blu:#1477B8;--vio:#5B3FD0;--ver:#0E9F6E;
+  --grad:linear-gradient(90deg,#0B3F73,#1477B8,#12A8B8,#E8175D);
+  --r:999px;--rad:20px;--rad-s:12px;
+  --display:'Fraunces',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;
+  --shadow:0 18px 40px -18px rgba(5,13,27,.4);
+}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--cream);color:var(--body);font-family:var(--sans);font-size:16px;line-height:1.5;overflow-x:hidden}
+h1,h2,h3{font-family:var(--display);color:var(--ink);margin:0;line-height:1.1;letter-spacing:-.01em}
+p{margin:0}a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--blu);outline-offset:3px}
+[hidden]{display:none!important}
+.eyebrow{display:inline-block;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--accent)}
+
+/* Connexion */
+#login{min-height:100dvh;background:var(--black);display:grid;place-items:center;padding:24px;position:relative;overflow:hidden}
+#login::after{content:"";position:absolute;left:0;right:0;bottom:0;height:6px;background:var(--grad)}
+#login::before{content:"";position:absolute;width:420px;height:420px;right:-160px;top:-160px;border-radius:50%;background:conic-gradient(from 90deg,#0B3F73,#1477B8,#12A8B8,#E8175D,#0B3F73);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 22px),#000 calc(100% - 21px));mask:radial-gradient(farthest-side,transparent calc(100% - 22px),#000 calc(100% - 21px))}
+.lbox{position:relative;z-index:1;width:min(420px,100%);background:var(--white);border-radius:28px;padding:34px 30px;display:flex;flex-direction:column;gap:16px;box-shadow:var(--shadow)}
+.lbox h1{font-size:2rem}
+.lbox .who{font-family:var(--display);font-weight:900;font-size:1.1rem;color:var(--ink)}
+.lbox .who i{color:var(--accent)}
+
+/* Structure */
+header.top{background:var(--navy-900);position:sticky;top:0;z-index:300}
+header.top .w{display:flex;align-items:center;gap:16px;height:72px;padding:0 24px}
+.brand b{font-family:var(--display);font-weight:900;font-size:1.25rem;color:var(--on-dark);white-space:nowrap;display:block;line-height:1}
+.brand span{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-on-dark);font-weight:700;display:block;margin-top:5px}
+.hdr{margin-left:auto;display:flex;gap:10px;align-items:center}
+.etat{display:inline-flex;align-items:center;min-height:32px;padding:0 14px;border-radius:var(--r);font-size:.82rem;font-weight:700;background:var(--ok-t);color:var(--ok);white-space:nowrap}
+.etat.dirty{background:var(--warn-t);color:var(--warn)}
+.filet{height:5px;background:var(--grad)}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:calc(100dvh - 77px)}
+nav#sidebar{background:var(--navy-900);padding:18px 12px;display:flex;flex-direction:column;gap:2px}
+nav#sidebar .sect{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--on-dark-3);font-weight:700;padding:14px 14px 6px}
+nav#sidebar a{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px;padding:0 14px;border-radius:var(--rad-s);color:var(--on-dark-2);font-weight:600;text-decoration:none;cursor:pointer}
+nav#sidebar a:hover{background:var(--navy-700);color:var(--on-dark)}
+nav#sidebar a.active{background:var(--white);color:var(--ink)}
+nav#sidebar a .n{font-size:.78rem;font-weight:700;min-width:26px;text-align:center;padding:2px 8px;border-radius:var(--r);background:var(--navy-700);color:var(--on-dark)}
+nav#sidebar a.active .n{background:var(--sand);color:var(--ink)}
+nav#sidebar .out{margin-top:auto;border-top:1px solid var(--edge);padding-top:10px}
+main{padding:30px 32px 80px;min-width:0}
+.page{display:none;flex-direction:column;gap:20px}.page.active{display:flex}
+.ph{display:flex;align-items:end;gap:14px;flex-wrap:wrap}
+.ph h1{font-size:2.1rem;margin-top:6px}
+.ph p{color:var(--gray);margin-top:6px;max-width:640px}
+.ph .acts{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.mobilebar,.drawer-head{display:none}
+.backdrop{position:fixed;inset:0;background:rgba(5,13,27,.55);z-index:350;opacity:0;visibility:hidden;transition:opacity .22s,visibility .22s;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+.backdrop.on{opacity:1;visibility:visible}
+
+/* Composants */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 20px;border-radius:var(--r);font:inherit;font-weight:700;font-size:.92rem;cursor:pointer;border:2px solid transparent;text-decoration:none;white-space:nowrap;transition:transform .15s}
+.btn:hover{transform:translateY(-1px)}.btn:disabled{cursor:not-allowed;transform:none;background:var(--sand);color:var(--gray);border-color:var(--sand)}
+.btn.dark{background:var(--navy-800);color:var(--on-dark)}
+.btn.light{background:var(--white);color:var(--ink)}
+.btn.ghost{background:transparent;color:var(--on-dark);border-color:var(--on-dark-3)}
+.btn.line{background:var(--white);color:var(--ink);border-color:var(--ink)}
+.btn.del{background:var(--white);color:var(--err);border-color:var(--err)}
+.btn.sm{min-height:38px;padding:0 14px;font-size:.86rem}
+.box{background:var(--white);border-radius:var(--rad);box-shadow:0 0 0 1px var(--line);padding:24px}
+.box>h2{font-size:1.3rem;margin-bottom:4px}
+.box>.hint{color:var(--gray);font-size:.9rem;margin-bottom:16px}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.kpi{background:var(--white);border-radius:var(--rad);box-shadow:0 0 0 1px var(--line);padding:18px 20px;border:0;border-top:5px solid var(--c,var(--blu));cursor:pointer;text-align:left;font:inherit}
+.kpi b{display:block;font-family:var(--display);font-weight:900;font-size:2.3rem;color:var(--ink);line-height:1}
+.kpi span{display:block;margin-top:6px;font-size:.86rem;font-weight:600;color:var(--body)}
+.todo{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.todo li{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--rad-s);background:var(--warn-t);color:var(--warn);font-weight:600;flex-wrap:wrap}
+.todo li.ok{background:var(--ok-t);color:var(--ok)}
+.todo li .btn{margin-left:auto}
+table.t{width:100%;border-collapse:collapse;font-size:.92rem}
+table.t th{text-align:left;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);padding:8px 10px;border-bottom:2px solid var(--line)}
+table.t td{padding:10px;border-bottom:1px solid var(--line);color:var(--ink);vertical-align:middle}
+table.t td.u{max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--body)}
+.pill{display:inline-flex;align-items:center;min-height:26px;padding:0 11px;border-radius:var(--r);font-size:.78rem;font-weight:700;background:var(--sand);color:var(--ink);white-space:nowrap}
+.pill.ok{background:var(--ok-t);color:var(--ok)}.pill.err{background:var(--err-t);color:var(--err)}.pill.warn{background:var(--warn-t);color:var(--warn)}
+.msg{padding:12px 16px;border-radius:var(--rad-s);font-weight:600}
+.msg.ok{background:var(--ok-t);color:var(--ok)}.msg.err{background:var(--err-t);color:var(--err)}.msg.warn{background:var(--warn-t);color:var(--warn)}
+
+/* Formulaires */
+.fg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.f{display:flex;flex-direction:column;gap:6px;min-width:0}.f.full{grid-column:1/-1}
+.f label,.f .lbl{font-weight:700;color:var(--ink);font-size:.86rem}
+.f small{color:var(--gray);font-size:.8rem}
+.f input,.f select,.f textarea{font:inherit;font-size:16px;color:var(--ink);background:var(--white);border:2px solid var(--line);border-radius:var(--rad-s);padding:10px 12px;min-height:46px;width:100%}
+.f textarea{min-height:92px;resize:vertical}
+.f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--navy-800)}
+.f input.bad{border-color:var(--err)}
+.row{display:grid;grid-template-columns:1fr auto;gap:8px}
+.sw{display:flex;align-items:center;gap:10px;min-height:44px;font-weight:600;color:var(--ink);cursor:pointer}
+.sw input{width:22px;height:22px;accent-color:var(--navy-800);flex-shrink:0;margin:0}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+.objs{display:flex;flex-direction:column;gap:10px}
+.obj{display:grid;grid-template-columns:110px 1fr 1.4fr auto;gap:8px;align-items:start;padding:12px;border-radius:var(--rad-s);background:var(--cream)}
+.obj.two{grid-template-columns:1fr 2fr auto}
+.img{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.img .pv{width:150px;height:96px;border-radius:var(--rad-s);background:var(--sand);overflow:hidden;display:grid;place-items:center;color:var(--gray);font-size:.8rem;font-weight:600;text-align:center;padding:6px}
+.img .pv img{width:100%;height:100%;object-fit:cover}
+.img .pv.round{width:96px;border-radius:50%}
+.colors{display:flex;gap:8px;flex-wrap:wrap}
+.colors label{display:flex;align-items:center;gap:8px;min-height:44px;padding:0 14px 0 6px;border-radius:var(--r);border:2px solid var(--line);cursor:pointer;font-weight:600;color:var(--ink);font-size:.88rem}
+.colors label:has(input:checked){border-color:var(--navy-800);background:var(--sand)}
+.colors input{position:absolute;opacity:0;width:1px;height:1px}
+.colors i{width:28px;height:28px;border-radius:50%;background:var(--sc)}
+
+/* Applications */
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.tools .search{flex:1;min-width:220px}
+.app{background:var(--white);border-radius:var(--rad);box-shadow:0 0 0 1px var(--line);overflow:hidden}
+.app>summary{list-style:none;display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;min-height:64px;flex-wrap:wrap}
+.app>summary::-webkit-details-marker{display:none}
+.app>summary b{font-family:var(--display);font-size:1.15rem;color:var(--ink)}
+.app>summary .dom{color:var(--gray);font-size:.86rem}
+.app>summary .pills{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.app[open]>summary{border-bottom:1px solid var(--line);background:var(--cream)}
+.app .in{padding:20px}
+.app .bar{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:14px}
+.app .bar .del{margin-left:auto}
+.applist{display:flex;flex-direction:column;gap:10px}
+
+.toast{position:fixed;bottom:20px;right:20px;z-index:900;background:var(--navy-800);color:var(--on-dark);padding:12px 20px;border-radius:var(--r);font-weight:700;opacity:0;transform:translateY(10px);transition:.2s;pointer-events:none;max-width:min(460px,calc(100vw - 32px))}
+.toast.on{opacity:1;transform:none}
+
+@media(max-width:1200px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:900px){
+  body.nav-open{overflow:hidden}
+  header.top .w{height:56px;padding:0 16px}
+  .brand b{font-size:1rem}.brand span,.hdr .btn{display:none}
+  .layout{display:block}
+  .mobilebar{display:flex;align-items:center;gap:12px;position:sticky;top:56px;z-index:280;background:var(--white);border-bottom:1px solid var(--line);padding:9px 16px}
+  .mobilebar .mb-lbl{flex:1;min-width:0}
+  .mobilebar .mb-where{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);display:block}
+  .mobilebar .mb-title{font-weight:700;color:var(--ink);font-size:.9rem;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .mobilebar .mb-btn{flex-shrink:0;min-height:40px;padding:0 18px;font:inherit;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--navy-800);color:var(--on-dark);border:none;border-radius:var(--r);cursor:pointer}
+  nav#sidebar{position:fixed;top:0;left:0;bottom:0;height:100dvh;width:min(86vw,330px);transform:translateX(-101%);transition:transform .24s cubic-bezier(.4,0,.2,1);z-index:400;overscroll-behavior:contain;overflow:auto;padding:0 12px 16px}
+  nav#sidebar.open{transform:none;box-shadow:14px 0 40px rgba(5,13,27,.4)}
+  .drawer-head{display:flex;align-items:center;gap:12px;padding:14px 6px;background:var(--navy-900);position:sticky;top:0;z-index:2;border-bottom:1px solid var(--edge)}
+  .drawer-head .dh-t{font-family:var(--display);font-weight:800;color:var(--on-dark);font-size:1.1rem}
+  .drawer-head .dh-x{margin-left:auto;min-height:38px;padding:0 14px;color:var(--on-dark);background:transparent;border:1px solid var(--on-dark-3);border-radius:var(--r);font:inherit;font-weight:700;cursor:pointer}
+  nav#sidebar a{padding:11px 14px;min-height:44px}
+  main{padding:20px 14px 60px}
+  .ph h1{font-size:1.6rem}.ph .acts{margin-left:0;width:100%}.ph .acts .btn{flex:1}
+  .btn{min-height:42px}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g2,.fg,.obj,.obj.two{grid-template-columns:1fr}
+  .box{padding:18px 16px}.app .in{padding:16px}
+  .app .bar .btn{flex:1}.app .bar .del{margin-left:0}
+  .todo li .btn{margin-left:0;width:100%}
+  .tools>*{width:100%}#a-dom{width:100%}
+  table.t thead{display:none}table.t,table.t tbody,table.t tr,table.t td{display:block;width:100%}
+  table.t tr{border-bottom:1px solid var(--line);padding:8px 0}table.t td{border:0;padding:4px 0}table.t td.u{max-width:none}
+  .f input,.f textarea,.f select{font-size:16px}
+  .toast{left:16px;right:16px;bottom:16px;text-align:center}
+}
+@media(max-width:380px){nav#sidebar{width:92vw}.kpis{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<section id="login">
+  <form class="lbox" onsubmit="connexion(event)" novalidate>
+    <span class="who">Portfolio <i>Humanum</i></span>
+    <h1>Administration</h1>
+    <div class="f"><label for="l-id">Identifiant</label><input id="l-id" autocomplete="username" autocapitalize="characters" required></div>
+    <div class="f"><label for="l-pw">Mot de passe</label><input id="l-pw" type="password" autocomplete="current-password" required></div>
+    <p class="msg err" id="l-err" hidden role="alert"></p>
+    <button class="btn dark" type="submit" id="l-go">Se connecter</button>
+  </form>
+</section>
+
+<div id="app" hidden>
+<header class="top"><div class="w">
+  <div class="brand"><b>Administration</b><span>Portfolio Humanum Business Group</span></div>
+  <div class="hdr"><span class="etat" id="etat" role="status">À jour</span><button class="btn ghost sm" type="button" onclick="apercu()">Aperçu</button><button class="btn light sm" type="button" onclick="showPage('publication')">Publier</button></div>
+</div></header>
+<div class="filet"></div>
+<div class="mobilebar">
+  <span class="mb-lbl"><span class="mb-where">Vous consultez</span><span class="mb-title" id="mb-title">Tableau de bord</span></span>
+  <button class="mb-btn" type="button" id="mb-btn" aria-controls="sidebar" aria-expanded="false" onclick="toggleNav()">Menu</button>
+</div>
+<div class="backdrop" id="backdrop" onclick="closeNav()" aria-hidden="true"></div>
+<div class="layout">
+<nav id="sidebar" aria-label="Navigation de l'administration">
+  <div class="drawer-head"><span class="dh-t">Administration</span><button class="dh-x" type="button" onclick="closeNav()">Fermer</button></div>
+  <span class="sect">Pilotage</span>
+  <a data-page="dashboard" data-label="Tableau de bord" tabindex="0" class="active">Tableau de bord</a>
+  <span class="sect">Contenus</span>
+  <a data-page="applications" data-label="Applications" tabindex="0">Applications<span class="n" id="n-apps"></span></a>
+  <a data-page="contenus" data-label="Textes du site" tabindex="0">Textes du site</a>
+  <a data-page="apparence" data-label="Apparence" tabindex="0">Apparence</a>
+  <span class="sect">Mise en ligne</span>
+  <a data-page="publication" data-label="Publication" tabindex="0">Publication<span class="n" id="n-pub" hidden></span></a>
+  <a data-page="historique" data-label="Historique" tabindex="0">Historique</a>
+  <a data-page="reglages" data-label="Réglages" tabindex="0">Réglages</a>
+  <div class="out"><a tabindex="0" data-action="logout">Se déconnecter</a></div>
+</nav>
+<main>
+
+<!-- Tableau de bord -->
+<section class="page active" id="page-dashboard">
+  <div class="ph"><div><span class="eyebrow">Pilotage</span><h1>Tableau de bord</h1><p id="db-sub"></p></div>
+    <div class="acts"><button class="btn line" type="button" onclick="apercu()">Voir le site en aperçu</button><button class="btn dark" type="button" onclick="showPage('applications');ajouter()">Ajouter une application</button></div></div>
+  <div class="kpis" id="kpis"></div>
+  <div class="g2">
+    <div class="box"><h2>À traiter</h2><p class="hint">Points à régler pour un portfolio complet.</p><ul class="todo" id="todo"></ul></div>
+    <div class="box"><h2>Demandes de contact</h2><p class="hint" id="db-contact"></p><div id="db-contact-btn"></div>
+      <h2 style="margin-top:22px">Dernières publications</h2><p class="hint">Versions enregistrées depuis cet appareil.</p><ul class="todo" id="db-hist"></ul></div>
+  </div>
+  <div class="box"><div class="ph" style="margin-bottom:14px"><div><h2 style="font-size:1.3rem">État des démonstrations</h2><p>Vérifie que chaque adresse de démo répond.</p></div><div class="acts"><button class="btn line sm" type="button" onclick="verifier()" id="v-btn">Vérifier toutes les démos</button></div></div>
+    <table class="t"><thead><tr><th>Application</th><th>Adresse</th><th>Statut</th></tr></thead><tbody id="demos"></tbody></table></div>
+</section>
+
+<!-- Applications -->
+<section class="page" id="page-applications">
+  <div class="ph"><div><span class="eyebrow">Contenus</span><h1>Applications</h1><p>Fiches, adresses de démo, captures, ordre d'affichage, mise à la une et publication.</p></div>
+    <div class="acts"><button class="btn dark" type="button" onclick="ajouter()">Ajouter une application</button></div></div>
+  <div class="tools"><label class="f search"><span class="lbl" style="position:absolute;left:-9999px">Rechercher</span><input id="a-q" type="search" placeholder="Rechercher une application" data-ui="filtre-apps"></label>
+    <select id="a-dom" aria-label="Filtrer par domaine" data-ui="filtre-apps" style="min-height:46px;border:2px solid var(--line);border-radius:12px;padding:0 12px;font:inherit;font-size:16px;color:var(--ink);background:var(--white)"></select></div>
+  <div class="applist" id="applist"></div>
+</section>
+
+<!-- Textes -->
+<section class="page" id="page-contenus">
+  <div class="ph"><div><span class="eyebrow">Contenus</span><h1>Textes du site</h1><p>Encadrez un mot par des astérisques pour le mettre en valeur : « Parlons de votre *projet* ».</p></div></div>
+  <div id="contenus" style="display:flex;flex-direction:column;gap:20px"></div>
+</section>
+
+<!-- Apparence -->
+<section class="page" id="page-apparence">
+  <div class="ph"><div><span class="eyebrow">Contenus</span><h1>Apparence</h1><p>Sections affichées, domaines et couleurs. Les quatre teintes proposées sont validées pour la lisibilité.</p></div></div>
+  <div class="box"><h2>Sections affichées</h2><p class="hint">Masquer une section ne supprime pas son contenu.</p><div class="fg" id="sections"></div></div>
+  <div class="box"><h2>Domaines</h2><p class="hint">Nom, description et couleur de chaque domaine.</p><div id="domaines" style="display:flex;flex-direction:column;gap:18px"></div></div>
+</section>
+
+<!-- Publication -->
+<section class="page" id="page-publication">
+  <div class="ph"><div><span class="eyebrow">Mise en ligne</span><h1>Publication</h1><p>Vos modifications sont enregistrées en brouillon sur cet appareil jusqu'à leur publication.</p></div></div>
+  <div class="box"><h2>Modifications en attente</h2><p class="hint">Comparaison avec la version en ligne.</p><ul class="todo" id="diff"></ul></div>
+  <div class="box"><h2>Publier</h2><p class="hint" id="pub-mode"></p>
+    <div class="tools"><button class="btn dark" type="button" id="pub-btn" onclick="publier()">Publier sur le site</button><button class="btn line" type="button" onclick="telecharger()">Télécharger contenu.js</button><button class="btn line" type="button" onclick="apercu()">Aperçu</button><button class="btn del" type="button" onclick="annuler()">Annuler les modifications</button></div>
+    <p class="msg" id="pub-res" hidden role="status" style="margin-top:14px"></p></div>
+</section>
+
+<!-- Historique -->
+<section class="page" id="page-historique">
+  <div class="ph"><div><span class="eyebrow">Mise en ligne</span><h1>Historique</h1><p>Les 15 dernières versions publiées ou sauvegardées depuis cet appareil.</p></div>
+    <div class="acts"><button class="btn line" type="button" onclick="pointSauvegarde()">Créer un point de sauvegarde</button></div></div>
+  <div class="box"><table class="t"><thead><tr><th>Date</th><th>Version</th><th>Applications</th><th></th></tr></thead><tbody id="hist"></tbody></table><p class="hint" id="hist-gh" style="margin-top:14px"></p></div>
+</section>
+
+<!-- Réglages -->
+<section class="page" id="page-reglages">
+  <div class="ph"><div><span class="eyebrow">Mise en ligne</span><h1>Réglages</h1><p>Formulaire de contact, connexion à GitHub et accès à l'administration.</p></div></div>
+  <div class="box"><h2>Formulaire de contact</h2><p class="hint">Créez un formulaire gratuit sur formspree.io et collez son identifiant.</p>
+    <div class="fg"><div class="f"><label for="r-fs">Identifiant Formspree</label><input id="r-fs" data-k="reglages.formspree" placeholder="ex. xyzabcde"></div>
+    <div class="f"><label for="r-mail">E-mail de secours</label><input id="r-mail" type="email" data-k="reglages.email" placeholder="contact@exemple.fr"><small>Utilisé tant que Formspree n'est pas renseigné.</small></div></div></div>
+  <div class="box"><h2>Publication GitHub</h2><p class="hint">Permet de publier en un clic. Le jeton reste uniquement sur cet appareil et n'est jamais publié.</p>
+    <div class="fg">
+      <div class="f"><label for="r-depot">Dépôt (compte/nom-du-depot)</label><input id="r-depot" data-k="reglages.depot" placeholder="atoutdunon-ship-it/portfolio" autocapitalize="off" spellcheck="false"></div>
+      <div class="f"><label for="r-br">Branche</label><input id="r-br" data-k="reglages.branche" placeholder="main" autocapitalize="off"></div>
+      <div class="f full"><label for="r-tok">Jeton d'accès GitHub</label><div class="row"><input id="r-tok" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_…"><button class="btn line" type="button" onclick="testerGH()">Tester</button></div>
+        <small>GitHub → Settings → Developer settings → Fine-grained tokens : accès à ce seul dépôt, permission « Contents : Read and write ».</small></div>
+      <div class="f full"><div class="tools"><button class="btn dark sm" type="button" onclick="enregistrerJeton()">Enregistrer le jeton sur cet appareil</button><button class="btn del sm" type="button" onclick="oublierJeton()">Oublier le jeton</button></div></div>
+    </div><p class="msg" id="gh-res" hidden role="status" style="margin-top:14px"></p></div>
+  <div class="box"><h2>Accès à l'administration</h2><p class="hint">Le nouvel accès prend effet après publication.</p>
+    <div class="fg"><div class="f"><label for="r-id">Nouvel identifiant</label><input id="r-id" autocomplete="off" autocapitalize="characters"></div>
+    <div class="f"><label for="r-pw">Nouveau mot de passe</label><input id="r-pw" type="password" autocomplete="new-password"><small>8 caractères minimum.</small></div>
+    <div class="f full"><div class="tools"><button class="btn dark sm" type="button" onclick="changerAcces()">Préparer le nouvel accès</button></div></div></div></div>
+</section>
+
+</main>
+</div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<input type="file" id="file" accept="image/png,image/jpeg,image/webp" hidden>
+
+<script src="contenu.js"></script>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const K={draft:'phbg-brouillon',hist:'phbg-historique',tok:'phbg-jeton-github',sess:'phbg-session'};
+const COUL={blu:'Bleu',cya:'Turquoise',mag:'Framboise',vio:'Violet',ver:'Émeraude'};
+const MAQ={catalogue:'Catalogue / boutique',agenda:'Agenda / réservation',parcours:'Parcours de formation',canevas:'Canevas / formulaire',tableau:'Tableau de bord',scores:'Tableau de scores'};
+const clone=o=>JSON.parse(JSON.stringify(o));
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const okUrl=u=>/^https?:\/\/[^\s"<>]+$/i.test(String(u||'').trim());
+const okImg=u=>/^data:image\/(webp|png|jpeg);base64,[A-Za-z0-9+/=]+$/.test(u||'')||/^[a-z0-9-]+\.(webp|png|jpe?g)$/.test(u||'')||okUrl(u);
+const slug=s=>String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'app';
+const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v);return true}catch(e){return false}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
+let tt;function toast(t){const e=$('toast');e.textContent=t;e.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('on'),2800)}
+
+/* ---------- SHA-256 (connexion) ---------- */
+function sha256(str){
+  const b=unescape(encodeURIComponent(str)),K2=[],H=[],r=(v,n)=>(v>>>n)|(v<<(32-n));let p=2;
+  for(let c=0;c<64;p++){let pr=true;for(let d=2;d*d<=p;d++)if(p%d===0){pr=false;break}if(pr){if(c<8)H[c]=(Math.pow(p,.5)*4294967296)|0;K2[c++]=(Math.pow(p,1/3)*4294967296)|0}}
+  const w=[],l=b.length*8;let m=b+'\x80';while(m.length%64-56)m+='\x00';
+  for(let i=0;i<m.length;i++)w[i>>2]|=m.charCodeAt(i)<<((3-i)%4)*8;
+  w[w.length]=(l/4294967296)|0;w[w.length]=l;
+  let h=H.slice(0);
+  for(let j=0;j<w.length;){const W=w.slice(j,j+=16),o=h.slice(0);
+    for(let i=0;i<64;i++){const w15=W[i-15],w2=W[i-2],a=h[0],e=h[4];
+      const t1=h[7]+(r(e,6)^r(e,11)^r(e,25))+((e&h[5])^(~e&h[6]))+K2[i]+(W[i]=i<16?W[i]:(W[i-16]+(r(w15,7)^r(w15,18)^(w15>>>3))+W[i-7]+(r(w2,17)^r(w2,19)^(w2>>>10)))|0);
+      const t2=(r(a,2)^r(a,13)^r(a,22))+((a&h[1])^(a&h[2])^(h[1]&h[2]));
+      h=[(t1+t2)|0].concat(h);h[4]=(h[4]+t1)|0;h.length=8}
+    for(let i=0;i<8;i++)h[i]=(h[i]+o[i])|0}
+  return h.map(v=>('00000000'+(v>>>0).toString(16)).slice(-8)).join('');
+}
+const ACCES_DEFAUT='9fee0d66996d1e42514a0fcfd2f9dd791b03d06fc5725d8ad36397b1b8d3d5b6';
+
+/* ---------- Données ---------- */
+let PUB=clone(window.SITE||{apps:[]}),D;
+function chargerBrouillon(){try{const s=ls.get(K.draft);D=s?JSON.parse(s):null}catch(e){D=null}if(!D||!Array.isArray(D.apps))D=clone(PUB);norm(D)}
+function norm(o){
+  o.reglages=o.reglages||{};o.identite=o.identite||{};o.accueil=o.accueil||{};o.portfolio=o.portfolio||{};o.demarche=o.demarche||{etapes:[]};
+  o.parcours=o.parcours||{items:[]};o.contact=o.contact||{points:[]};o.pied=o.pied||{territoires:[]};o.domaines=o.domaines||{};
+  o.sections=o.sections||{};o.une=o.une||[];o.bandeau=o.bandeau||[];o.apps=o.apps||[];
+  o.apps.forEach(a=>{if(a.visible===undefined)a.visible=true;a.fonctions=a.fonctions||[];a.stack=a.stack||[]});
+}
+const getP=(o,p)=>p.split('.').reduce((x,k)=>x==null?x:x[k],o);
+function setP(o,p,v){const ks=p.split('.');let x=o;ks.slice(0,-1).forEach((k,i)=>{if(x[k]==null)x[k]=/^\d+$/.test(ks[i+1])?[]:{};x=x[k]});x[ks[ks.length-1]]=v}
+const dirty=()=>JSON.stringify(D)!==JSON.stringify(PUB);
+let saveT;
+function save(rerender){
+  if(!ls.set(K.draft,JSON.stringify(D)))toast('Brouillon non enregistré : stockage du navigateur indisponible ou plein.');
+  majEtat();if(rerender)renderPage(cur);
+}
+function majEtat(){
+  const n=diffs().length,e=$('etat');
+  e.textContent=n?n+(n>1?' modifications non publiées':' modification non publiée'):'À jour';e.classList.toggle('dirty',!!n);
+  $('n-pub').hidden=!n;$('n-pub').textContent=n;$('n-apps').textContent=D.apps.length;
+}
+
+/* ---------- Connexion ---------- */
+let echecs=0,bloqueJusqua=0;
+function connecte(){try{const t=+sessionStorage.getItem(K.sess);return t>Date.now()}catch(e){return false}}
+function connexion(e){
+  e.preventDefault();const err=$('l-err');
+  if(Date.now()<bloqueJusqua){err.textContent='Trop de tentatives. Réessayez dans '+Math.ceil((bloqueJusqua-Date.now())/1000)+' secondes.';err.hidden=false;return}
+  const id=$('l-id').value.trim().toUpperCase(),pw=$('l-pw').value;
+  const attendu=(PUB.reglages&&PUB.reglages.acces)||ACCES_DEFAUT;
+  if(sha256(id+':'+pw)!==attendu){
+    echecs++;if(echecs>=5){bloqueJusqua=Date.now()+30000;echecs=0}
+    err.textContent='Identifiant ou mot de passe incorrect.';err.hidden=false;$('l-pw').value='';$('l-pw').focus();return;
+  }
+  try{sessionStorage.setItem(K.sess,String(Date.now()+8*3600e3))}catch(x){}
+  err.hidden=true;$('l-pw').value='';ouvrir();
+}
+function deconnexion(){try{sessionStorage.removeItem(K.sess)}catch(e){}closeNav();$('app').hidden=true;$('login').hidden=false;$('l-id').focus()}
+function ouvrir(){$('login').hidden=true;$('app').hidden=false;chargerBrouillon();majEtat();showPage((location.hash||'').slice(1)||'dashboard')}
+
+/* ---------- Navigation ---------- */
+let cur='dashboard';
+function openNav(){
+  $('sidebar').classList.add('open');$('backdrop').classList.add('on');document.body.classList.add('nav-open');
+  $('mb-btn').setAttribute('aria-expanded','true');$('mb-btn').textContent='Fermer';
+  const c=document.querySelector('#sidebar a.active')||document.querySelector('#sidebar a');if(c){try{c.focus({preventScroll:true})}catch(e){c.focus()}}
+}
+function closeNav(){
+  $('sidebar').classList.remove('open');$('backdrop').classList.remove('on');document.body.classList.remove('nav-open');
+  $('mb-btn').setAttribute('aria-expanded','false');$('mb-btn').textContent='Menu';
+}
+function toggleNav(){$('sidebar').classList.contains('open')?closeNav():openNav()}
+function showPage(id){
+  if(!$('page-'+id))id='dashboard';cur=id;
+  const link=document.querySelector('#sidebar a[data-page="'+id+'"]');
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));$('page-'+id).classList.add('active');
+  document.querySelectorAll('#sidebar a[data-page]').forEach(a=>{const on=a.dataset.page===id;a.classList.toggle('active',on);on?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current')});
+  closeNav();$('mb-title').textContent=(link&&link.dataset.label)||'Tableau de bord';
+  try{history.replaceState(null,'',location.pathname+location.search+'#'+id)}catch(e){}
+  renderPage(id);if(typeof window.scrollTo==='function')try{window.scrollTo(0,0)}catch(e){}
+}
+function renderPage(id){({dashboard:rDash,applications:rApps,contenus:rTextes,apparence:rApparence,publication:rPub,historique:rHist,reglages:rReglages}[id]||(()=>{}))()}
+document.getElementById('sidebar').addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return;if(a.dataset.action==='logout')return deconnexion();if(a.dataset.page)showPage(a.dataset.page)});
+document.getElementById('sidebar').addEventListener('keydown',e=>{const a=e.target.closest('a');if(!a||(e.key!=='Enter'&&e.key!==' '))return;e.preventDefault();a.click()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeNav()});
+if(typeof window.matchMedia==='function'){const w=window.matchMedia('(min-width: 901px)'),f=e=>{if(e.matches)closeNav()};if(w.addEventListener)w.addEventListener('change',f);else if(w.addListener)w.addListener(f)}
+else window.addEventListener('resize',()=>{if(window.innerWidth>900)closeNav()});
+let x0=null;
+document.addEventListener('touchstart',e=>{x0=e.touches[0].clientX},{passive:true});
+document.addEventListener('touchend',e=>{if(x0===null||!$('sidebar').classList.contains('open')){x0=null;return}if(e.changedTouches[0].clientX-x0<-55)closeNav();x0=null},{passive:true});
+
+/* ---------- Liaison générique des champs ---------- */
+document.addEventListener('input',e=>{
+  const t=e.target;if(t.dataset.ui==='filtre-apps')return rAppsList();
+  const k=t.dataset.k;if(!k)return;
+  let v=t.type==='checkbox'?t.checked:t.value;
+  if(t.dataset.t==='list')v=v.split('\n').map(s=>s.trim()).filter(Boolean);
+  if(t.dataset.t==='csv')v=v.split(',').map(s=>s.trim()).filter(Boolean);
+  setP(D,k,v);
+  if(/^apps\.\d+\.url$/.test(k))t.classList.toggle('bad',!!String(v).trim()&&!okUrl(v));
+  const m=k.match(/^apps\.(\d+)\./);if(m)entete(+m[1]);
+  save(false);
+});
+document.addEventListener('change',e=>{if(e.target.dataset.ui==='filtre-apps')rAppsList();if(e.target.dataset.k&&(e.target.type==='checkbox'||e.target.type==='radio'||e.target.tagName==='SELECT'))e.target.dispatchEvent(new Event('input',{bubbles:true}))});
+const champ=(k,l,o={})=>{const v=getP(D,k),val=o.t==='list'?(v||[]).join('\n'):o.t==='csv'?(v||[]).join(', '):(v==null?'':v),id='k-'+k.replace(/\W/g,'-');
+  const attrs=' id="'+id+'" data-k="'+esc(k)+'"'+(o.t?' data-t="'+o.t+'"':'')+(o.ph?' placeholder="'+esc(o.ph)+'"':'')+(o.max?' maxlength="'+o.max+'"':'');
+  const ctl=o.area||o.t==='list'?'<textarea'+attrs+'>'+esc(val)+'</textarea>':'<input'+attrs+(o.type?' type="'+o.type+'"':'')+' value="'+esc(val)+'"'+(o.bad?' class="bad"':'')+'>';
+  return '<div class="f'+(o.full?' full':'')+'"><label for="'+id+'">'+esc(l)+'</label>'+ctl+(o.hint?'<small>'+esc(o.hint)+'</small>':'')+'</div>'};
+const opts=(m,v)=>Object.entries(m).map(([k,l])=>'<option value="'+esc(k)+'"'+(k===v?' selected':'')+'>'+esc(l)+'</option>').join('');
+
+/* ---------- Tableau de bord ---------- */
+const incomplete=a=>!a.resume||!a.contexte||!(a.fonctions||[]).length||/à compléter/i.test([a.resume,a.contexte,(a.fonctions||[]).join(' ')].join(' '));
+const etatsDemo={};
+function rDash(){
+  const v=D.apps.filter(a=>a.visible!==false),live=v.filter(a=>okUrl(a.url)),inc=D.apps.filter(incomplete);
+  $('db-sub').textContent=v.length+' applications publiées, '+live.length+' avec démo en ligne. '+(dirty()?'Des modifications attendent leur publication.':'Le site est à jour.');
+  const kp=[['Applications publiées',v.length,'blu','applications'],['Démos en ligne',live.length,'cya','applications'],['Démos sur demande',v.length-live.length,'vio','applications'],['Applications masquées',D.apps.length-v.length,'mag','applications'],['Fiches à compléter',inc.length,inc.length?'mag':'cya','applications']];
+  $('kpis').innerHTML=kp.map(([l,n,c,p])=>'<button class="kpi" type="button" style="--c:var(--'+c+')" data-go="'+p+'"><b>'+n+'</b><span>'+esc(l)+'</span></button>').join('');
+  const t=[];
+  inc.forEach(a=>t.push(['La fiche « '+a.nom+' » est incomplète','applications',a.id]));
+  D.apps.filter(a=>String(a.url||'').trim()&&!okUrl(a.url)).forEach(a=>t.push(['Adresse de démo invalide : '+a.nom,'applications',a.id]));
+  Object.entries(etatsDemo).filter(([,s])=>s==='ko').forEach(([id])=>{const a=D.apps.find(x=>x.id===id);if(a)t.push(['La démo de « '+a.nom+' » ne répond pas','applications',id])});
+  if(!D.reglages.formspree&&!D.reglages.email)t.push(['Formulaire de contact non configuré','reglages']);
+  if(!D.reglages.depot||!ls.get(K.tok))t.push(['Publication GitHub non configurée','reglages']);
+  if(dirty())t.push(['Modifications non publiées','publication']);
+  $('todo').innerHTML=t.length?t.map(([l,p,id])=>'<li>'+esc(l)+'<button class="btn line sm" type="button" data-go="'+p+'"'+(id?' data-app="'+esc(id)+'"':'')+'>Traiter</button></li>').join(''):'<li class="ok">Tout est en ordre.</li>';
+  const fs=fsId(D.reglages.formspree);
+  $('db-contact').textContent=fs?'Les demandes arrivent sur votre e-mail et dans votre espace Formspree.':D.reglages.email?'Les demandes ouvrent la messagerie du visiteur vers '+D.reglages.email+'.':'Aucun canal configuré : les visiteurs ne peuvent pas encore vous écrire.';
+  $('db-contact-btn').innerHTML=fs?'<a class="btn dark sm" href="https://formspree.io/forms/'+esc(fs)+'/submissions" target="_blank" rel="noopener">Ouvrir les demandes reçues</a>':'<button class="btn line sm" type="button" data-go="reglages">Configurer le formulaire</button>';
+  const h=hist().slice(0,3);
+  $('db-hist').innerHTML=h.length?h.map(x=>'<li class="ok">'+esc(dateFr(x.date))+' — '+esc(x.label)+'</li>').join(''):'<li>Aucune publication depuis cet appareil.</li>';
+  $('demos').innerHTML=v.map(a=>'<tr><td><b>'+esc(a.nom)+'</b></td><td class="u">'+(okUrl(a.url)?esc(a.url):'—')+'</td><td>'+pillDemo(a)+'</td></tr>').join('');
+}
+function pillDemo(a){if(!okUrl(a.url))return '<span class="pill">Sur demande</span>';const s=etatsDemo[a.id];return s==='ok'?'<span class="pill ok">Répond</span>':s==='ko'?'<span class="pill err">Ne répond pas</span>':s==='...'?'<span class="pill warn">Vérification…</span>':'<span class="pill">Non vérifiée</span>'}
+async function ping(u){const c=typeof AbortController==='function'?new AbortController():null;const t=setTimeout(()=>c&&c.abort(),8000);try{await fetch(u,{mode:'no-cors',cache:'no-store',signal:c&&c.signal});return true}catch(e){return false}finally{clearTimeout(t)}}
+async function verifier(){
+  const l=D.apps.filter(a=>a.visible!==false&&okUrl(a.url));if(!l.length)return toast('Aucune démo en ligne à vérifier.');
+  $('v-btn').disabled=true;l.forEach(a=>etatsDemo[a.id]='...');rDash();
+  await Promise.all(l.map(async a=>{etatsDemo[a.id]=await ping(a.url.trim())?'ok':'ko'}));
+  $('v-btn').disabled=false;if(cur==='dashboard')rDash();
+  const ko=l.filter(a=>etatsDemo[a.id]==='ko').length;toast(ko?ko+' démo(s) ne répondent pas.':'Toutes les démos répondent.');
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(!b)return;showPage(b.dataset.go);if(b.dataset.app)ouvrirApp(b.dataset.app)});
+
+/* ---------- Applications ---------- */
+function rApps(){$('a-dom').innerHTML='<option value="">Tous les domaines</option>'+opts(Object.fromEntries(Object.entries(D.domaines).map(([k,v])=>[k,v.l])),$('a-dom').value);rAppsList()}
+function pills(a){return (a.visible===false?'<span class="pill err">Masquée</span>':'')+(D.une.includes(a.id)?'<span class="pill ok">À la une</span>':'')+(okUrl(a.url)?'<span class="pill ok">Démo en ligne</span>':String(a.url||'').trim()?'<span class="pill err">Adresse invalide</span>':'<span class="pill">Sur demande</span>')+(incomplete(a)?'<span class="pill warn">À compléter</span>':'')}
+function entete(i){const s=document.querySelector('#applist details[data-i="'+i+'"]>summary');if(!s)return;const a=D.apps[i];s.innerHTML='<b>'+esc(a.nom||'Sans nom')+'</b><span class="dom">'+esc((D.domaines[a.categorie]||{}).l||'')+'</span><span class="pills">'+pills(a)+'</span>'}
+function rAppsList(){
+  const q=($('a-q').value||'').trim().toLowerCase(),dom=$('a-dom').value;
+  const open=new Set([...document.querySelectorAll('#applist details[open]')].map(d=>d.dataset.i));
+  const html=D.apps.map((a,i)=>{
+    if((dom&&a.categorie!==dom)||(q&&![a.nom,a.code,a.resume].join(' ').toLowerCase().includes(q)))return '';
+    const p='apps.'+i+'.';
+    return '<details class="app" data-i="'+i+'"'+(open.has(String(i))?' open':'')+'><summary></summary><div class="in fg">'
+     +'<div class="f full"><label class="sw"><input type="checkbox" data-k="'+p+'visible"'+(a.visible!==false?' checked':'')+'>Publiée sur le portfolio</label><label class="sw"><input type="checkbox" data-une="'+esc(a.id)+'"'+(D.une.includes(a.id)?' checked':'')+'>À la une sur l\'accueil (3 maximum)</label></div>'
+     +'<div class="f full"><label for="u'+i+'">Adresse de démonstration</label><div class="row"><input id="u'+i+'" type="url" inputmode="url" data-k="'+p+'url" value="'+esc(a.url)+'" placeholder="https://… (vide = démo sur demande)"'+(a.url&&!okUrl(a.url)?' class="bad"':'')+'><button class="btn line" type="button" data-test="'+i+'">Tester</button></div></div>'
+     +champ(p+'nom','Nom affiché')+champ(p+'code','Nom de code')
+     +'<div class="f"><label for="c'+i+'">Domaine</label><select id="c'+i+'" data-k="'+p+'categorie">'+opts(Object.fromEntries(Object.entries(D.domaines).map(([k,v])=>[k,v.l])),a.categorie)+'</select></div>'
+     +'<div class="f"><label for="m'+i+'">Maquette (si pas de capture)</label><select id="m'+i+'" data-k="'+p+'maquette">'+opts(MAQ,a.maquette)+'</select></div>'
+     +champ(p+'video','Fichier vidéo',{ph:'ex. video-ryla-martinique.mp4',hint:'Nom du fichier MP4 déposé à côté de index.html (minuscules, sans espace), ou adresse https d\'un MP4. Vide pour une application.'})
+     +champ(p+'statut','Statut',{ph:'En ligne, Livré, En développement…'})+champ(p+'territoires','Périmètre / territoires')
+     +champ(p+'resume','Résumé (carte)',{full:true,max:140})
+     +champ(p+'contexte','Contexte (fiche détaillée)',{full:true,area:true})
+     +champ(p+'fonctions','Fonctionnalités clés',{t:'list',hint:'Une par ligne.'})+champ(p+'stack','Technologies',{t:'csv',area:true,hint:'Séparées par des virgules.'})
+     +'<div class="f full"><span class="lbl">Capture d\'écran</span><div class="img"><div class="pv">'+(okImg(a.capture)?'<img src="'+esc(a.capture)+'" alt="">':'Maquette générée')+'</div><button class="btn line sm" type="button" data-img="'+p+'capture">Choisir une image</button>'+(a.capture?'<button class="btn del sm" type="button" data-noimg="'+p+'capture">Retirer</button>':'')+'</div><small>Capture de la page d\'accueil (idéalement 1440 × 900), ou affiche de la vidéo. Elle s\'affiche dans le carrousel quand l\'adresse de démo est renseignée.</small></div>'
+     +'<div class="bar"><button class="btn line sm" type="button" data-mv="'+i+':-1"'+(i?'':' disabled')+'>Monter</button><button class="btn line sm" type="button" data-mv="'+i+':1"'+(i<D.apps.length-1?'':' disabled')+'>Descendre</button><button class="btn line sm" type="button" data-dup="'+i+'">Dupliquer</button><button class="btn del sm" type="button" data-del="'+i+'">Supprimer</button></div>'
+     +'</div></details>';
+  }).join('');
+  $('applist').innerHTML=html||'<div class="box">Aucune application ne correspond.</div>';
+  D.apps.forEach((a,i)=>entete(i));
+}
+function uid(base,skip){let id=base,n=2;while(D.apps.some((a,j)=>j!==skip&&a.id===id))id=base+'-'+n++;return id}
+function ajouter(){
+  const dom=Object.keys(D.domaines)[0]||'formation';
+  D.apps.push({id:uid('nouvelle-application',-1),nom:'Nouvelle application',code:'',categorie:dom,maquette:'tableau',resume:'',contexte:'',fonctions:[],stack:[],territoires:'',statut:'En développement',url:'',visible:false,capture:''});
+  save(false);$('a-q').value='';$('a-dom').value='';rApps();ouvrirApp(D.apps[D.apps.length-1].id);toast('Application ajoutée, masquée tant que vous ne la publiez pas.');
+}
+function ouvrirApp(id){const i=D.apps.findIndex(a=>a.id===id);const d=document.querySelector('#applist details[data-i="'+i+'"]');if(!d)return;d.open=true;if(d.scrollIntoView)d.scrollIntoView({block:'start'});const n=$('k-apps-'+i+'-nom');if(n)n.focus({preventScroll:true})}
+document.addEventListener('click',e=>{
+  const t=e.target.closest('button');if(!t)return;const d=t.dataset;
+  if(d.test!==undefined){const u=String(D.apps[+d.test].url||'').trim();okUrl(u)?window.open(u,'_blank','noopener'):toast('Adresse invalide : elle doit commencer par https://')}
+  if(d.mv){const[i,s]=d.mv.split(':').map(Number),j=i+s;if(j>=0&&j<D.apps.length){[D.apps[i],D.apps[j]]=[D.apps[j],D.apps[i]];save(false);rAppsList()}}
+  if(d.dup!==undefined){const a=clone(D.apps[+d.dup]);a.id=uid(a.id+'-copie',-1);a.nom+=' (copie)';a.visible=false;D.apps.splice(+d.dup+1,0,a);save(false);rAppsList();toast('Copie créée, masquée.')}
+  if(d.del!==undefined){const a=D.apps[+d.del];if(!confirm('Supprimer « '+a.nom+' » du portfolio ?'))return;D.apps.splice(+d.del,1);D.une=D.une.filter(x=>x!==a.id);save(false);rAppsList();toast('Application supprimée.')}
+  if(d.img)choisirImage(d.img);
+  if(d.noimg){setP(D,d.noimg,'');save(true)}
+  if(d.addobj){const l=getP(D,d.addobj)||[];l.push(JSON.parse(d.tpl));setP(D,d.addobj,l);save(true)}
+  if(d.delobj){const[p,i]=d.delobj.split('|');getP(D,p).splice(+i,1);save(true)}
+});
+document.addEventListener('change',e=>{
+  const u=e.target.dataset.une;if(u===undefined)return;
+  if(e.target.checked){if(D.une.length>=3){e.target.checked=false;return toast('Trois applications maximum à la une.')}D.une.push(u)}else D.une=D.une.filter(x=>x!==u);
+  save(false);const i=D.apps.findIndex(a=>a.id===u);entete(i);
+});
+
+/* ---------- Images ---------- */
+let cible=null;
+function choisirImage(path){cible=path;$('file').value='';$('file').click()}
+$('file').addEventListener('change',async e=>{
+  const f=e.target.files&&e.target.files[0];if(!f||!cible)return;
+  if(!/^image\/(png|jpeg|webp)$/.test(f.type))return toast('Format accepté : PNG, JPG ou WebP.');
+  try{const url=await compresser(f,cible.endsWith('photo')?600:1400);setP(D,cible,url);save(true);toast('Image ajoutée. Elle sera publiée avec le site.')}
+  catch(x){toast('Image illisible : essayez un autre fichier.')}
+});
+function compresser(file,max){
+  return new Promise((ok,ko)=>{const r=new FileReader();r.onerror=ko;r.onload=()=>{const im=new Image();im.onerror=ko;im.onload=()=>{
+    const k=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);
+    const x=c.getContext&&c.getContext('2d');if(!x)return ok(r.result);x.drawImage(im,0,0,c.width,c.height);
+    let u=c.toDataURL('image/webp',.82);if(!/^data:image\/webp/.test(u))u=c.toDataURL('image/jpeg',.85);ok(u)};im.src=r.result};r.readAsDataURL(file)});
+}
+
+/* ---------- Textes ---------- */
+const BLOCS=[
+  ['Identité',()=>champ('identite.prenom','Prénom')+champ('identite.nom','Nom')+champ('identite.marque','Marque affichée sous le nom',{full:true})
+    +'<div class="f full"><span class="lbl">Photo de profil (page Démarche)</span><div class="img"><div class="pv round">'+(okImg(D.identite.photo)?'<img src="'+esc(D.identite.photo)+'" alt="">':'Aucune')+'</div><button class="btn line sm" type="button" data-img="identite.photo">Choisir une photo</button>'+(D.identite.photo?'<button class="btn del sm" type="button" data-noimg="identite.photo">Retirer</button>':'')+'</div></div>'],
+  ['Bandeau supérieur',()=>champ('bandeau','Messages (un par ligne)',{t:'list',full:true,hint:'Le nombre d\'applications s\'affiche automatiquement en premier.'})],
+  ['Accueil — en-tête',()=>champ('accueil.surtitre','Surtitre')+champ('accueil.titre','Titre principal',{hint:'*mot* = mise en valeur'})+champ('accueil.accroche','Accroche',{full:true,area:true})+champ('accueil.cta1','Bouton principal')+champ('accueil.cta2','Bouton secondaire')],
+  ['Accueil — carrousel des sites',()=>champ('accueil.carrouselSurtitre','Surtitre')+champ('accueil.carrouselTitre','Titre')+champ('accueil.carrouselTexte','Texte',{full:true,hint:'Le carrousel montre automatiquement chaque application publiée qui a une adresse de démo, avec sa capture.'})],
+  ['Accueil — domaines',()=>champ('accueil.domainesSurtitre','Surtitre')+champ('accueil.domainesTitre','Titre')+champ('accueil.domainesTexte','Texte',{full:true,area:true})],
+  ['Accueil — à la une',()=>champ('accueil.uneSurtitre','Surtitre')+champ('accueil.uneTitre','Titre',{hint:'Les applications à la une se choisissent dans « Applications ».'})],
+  ['Page Applications',()=>champ('portfolio.surtitre','Surtitre')+champ('portfolio.titre','Titre')],
+  ['Démarche',()=>champ('demarche.surtitre','Surtitre')+champ('demarche.titre','Titre')+objs('demarche.etapes',[['t','Étape'],['d','Description']],{t:'',d:''},'two')],
+  ['Parcours',()=>champ('parcours.surtitre','Surtitre')+champ('parcours.texte','Présentation',{full:true,area:true})+objs('parcours.items',[['annee','Année'],['titre','Fonction — structure'],['texte','Détail']],{annee:'',titre:'',texte:''},'',"Classement automatique du plus récent au plus ancien.")],
+  ['Contact',()=>champ('contact.surtitre','Surtitre')+champ('contact.titre','Titre')+champ('contact.texte','Texte',{full:true,area:true})+champ('contact.points','Points forts (un par ligne)',{t:'list'})+champ('contact.bouton','Texte du bouton d\'envoi')],
+  ['Pied de page',()=>champ('pied.texte','Présentation',{area:true})+champ('pied.territoires','Territoires (un par ligne)',{t:'list'})],
+];
+function objs(path,fields,tpl,cls,hint){
+  const l=getP(D,path)||[];
+  return '<div class="f full"><span class="lbl">'+(hint?esc(hint):'Éléments')+'</span><div class="objs">'+l.map((o,i)=>'<div class="obj '+(cls||'')+'">'+fields.map(([k,lab])=>'<div class="f"><label for="k-'+(path+'.'+i+'.'+k).replace(/\W/g,'-')+'">'+esc(lab)+'</label><input id="k-'+(path+'.'+i+'.'+k).replace(/\W/g,'-')+'" data-k="'+esc(path+'.'+i+'.'+k)+'" value="'+esc(o[k])+'"></div>').join('')+'<button class="btn del sm" type="button" style="align-self:end" data-delobj="'+esc(path)+'|'+i+'">Retirer</button></div>').join('')+'</div><div><button class="btn line sm" type="button" data-addobj="'+esc(path)+'" data-tpl="'+esc(JSON.stringify(tpl))+'">Ajouter</button></div></div>';
+}
+function rTextes(){$('contenus').innerHTML=BLOCS.map(([t,f])=>'<fieldset class="box"><h2>'+esc(t)+'</h2><p class="hint"></p><div class="fg">'+f()+'</div></fieldset>').join('')}
+
+/* ---------- Apparence ---------- */
+function rApparence(){
+  const S=[['carrousel','Accueil — carrousel des sites en ligne'],['domaines','Accueil — domaines'],['une','Accueil — applications à la une'],['demarche','Démarche — méthode'],['parcours','Démarche — parcours']];
+  $('sections').innerHTML=S.map(([k,l])=>'<label class="sw"><input type="checkbox" data-k="sections.'+k+'"'+(D.sections[k]!==false?' checked':'')+'>'+esc(l)+'</label>').join('');
+  $('domaines').innerHTML=Object.entries(D.domaines).map(([k,v])=>'<div class="fg">'+champ('domaines.'+k+'.l','Nom du domaine')+champ('domaines.'+k+'.d','Description')
+    +'<div class="f full"><span class="lbl">Couleur</span><div class="colors" role="radiogroup">'+Object.entries(COUL).map(([c,l])=>'<label><input type="radio" name="col-'+esc(k)+'" value="'+c+'" data-k="domaines.'+esc(k)+'.c"'+(v.c===c?' checked':'')+'><i style="--sc:var(--'+c+')"></i>'+l+'</label>').join('')+'</div></div></div>').join('<hr style="border:0;border-top:1px solid var(--line);margin:0">');
+}
+
+/* ---------- Publication ---------- */
+function diffs(){
+  const o=[],lab={reglages:'Réglages',identite:'Identité',bandeau:'Bandeau',accueil:'Accueil',portfolio:'Page Applications',demarche:'Démarche',parcours:'Parcours',contact:'Contact',pied:'Pied de page',sections:'Sections affichées',domaines:'Domaines',une:'Applications à la une'};
+  Object.keys(lab).forEach(k=>{if(JSON.stringify(D[k])!==JSON.stringify(PUB[k]))o.push(lab[k]+' modifié')});
+  const pa=Object.fromEntries((PUB.apps||[]).map(a=>[a.id,a]));
+  D.apps.forEach(a=>{if(!pa[a.id])o.push('Application ajoutée : '+a.nom);else if(JSON.stringify(a)!==JSON.stringify(pa[a.id]))o.push('Application modifiée : '+a.nom)});
+  (PUB.apps||[]).forEach(a=>{if(!D.apps.some(x=>x.id===a.id))o.push('Application supprimée : '+a.nom)});
+  if(!o.length&&JSON.stringify(D.apps.map(a=>a.id))!==JSON.stringify((PUB.apps||[]).map(a=>a.id)))o.push('Ordre des applications modifié');
+  return o;
+}
+const ghOk=()=>/^[\w.-]+\/[\w.-]+$/.test(D.reglages.depot||'')&&!!ls.get(K.tok);
+function rPub(){
+  const d=diffs();$('diff').innerHTML=d.length?d.map(x=>'<li>'+esc(x)+'</li>').join(''):'<li class="ok">Aucune modification : le site est à jour.</li>';
+  $('pub-mode').textContent=ghOk()?'Publication directe sur le dépôt '+D.reglages.depot+' ('+(D.reglages.branche||'main')+'). En ligne en une à deux minutes.':'GitHub n\'est pas configuré : téléchargez contenu.js et déposez-le sur votre dépôt, ou configurez la publication directe dans Réglages.';
+  $('pub-btn').disabled=!d.length||!ghOk();
+}
+function fichier(o){return '/* Portfolio Humanum Business Group — contenu du site.\n   Fichier géré par admin.html : ne pas modifier à la main. */\nwindow.SITE = '+JSON.stringify(o,null,1)+';\n'}
+function propre(){const o=clone(D);o.apps.forEach(a=>{a.url=okUrl(a.url)?String(a.url).trim():''});o.une=o.une.filter(id=>o.apps.some(a=>a.id===id));return o}
+function b64(s){const b=new TextEncoder().encode(s);let r='';for(let i=0;i<b.length;i+=0x8000)r+=String.fromCharCode.apply(null,b.subarray(i,i+0x8000));return btoa(r)}
+async function gh(path,method,body){
+  const[o,r]=D.reglages.depot.split('/'),br=D.reglages.branche||'main';
+  const u='https://api.github.com/repos/'+encodeURIComponent(o)+'/'+encodeURIComponent(r)+(path===null?'':'/contents/'+encodeURIComponent(path)+(method==='GET'?'?ref='+encodeURIComponent(br):''));
+  const res=await fetch(u,{method,headers:{'Accept':'application/vnd.github+json','Authorization':'Bearer '+ls.get(K.tok),'X-GitHub-Api-Version':'2022-11-28'},body:body?JSON.stringify(Object.assign({branch:br},body)):undefined});
+  if(method==='GET'&&res.status===404)return null;
+  if(!res.ok){const e=new Error('GitHub '+res.status);e.status=res.status;throw e}
+  return res.status===204?{}:res.json();
+}
+async function deposer(path,b64c,msg){const ex=await gh(path,'GET');return gh(path,'PUT',{message:msg,content:b64c,sha:ex&&ex.sha?ex.sha:undefined})}
+function res(id,t,c){const r=$(id);r.textContent=t;r.className='msg '+c;r.hidden=false}
+async function publier(){
+  if(!ghOk())return showPage('reglages');
+  const btn=$('pub-btn');btn.disabled=true;res('pub-res','Publication en cours…','warn');
+  try{
+    const o=propre(),imgs=[];
+    o.apps.forEach(a=>{if(/^data:/.test(a.capture||''))imgs.push([a,'capture','capture-'+slug(a.id)])});
+    if(/^data:/.test(o.identite.photo||''))imgs.push([o.identite,'photo','photo-profil']);
+    for(const[obj,k,nom] of imgs){const m=obj[k].match(/^data:image\/(webp|png|jpeg);base64,(.+)$/);const f=nom+'.'+(m[1]==='jpeg'?'jpg':m[1]);await deposer(f,m[2],'Image '+f);obj[k]=f}
+    await deposer('contenu.js',b64(fichier(o)),'Mise à jour du contenu — '+dateFr(new Date().toISOString()));
+    PUB=clone(o);D=clone(o);save(false);ajoutHist('Publication',o);
+    res('pub-res','Publié. Le site sera à jour en ligne d\'ici une à deux minutes.','ok');toast('Site publié.');rPub();
+  }catch(e){
+    res('pub-res',e.status===401||e.status===403?'GitHub refuse l\'accès : vérifiez le jeton et ses permissions dans Réglages.':e.status===404?'Dépôt ou branche introuvable : vérifiez les Réglages.':e.status===409||e.status===422?'Conflit de version sur GitHub : réessayez dans un instant.':'Publication impossible (réseau ou GitHub indisponible). Votre brouillon est conservé.','err');
+    btn.disabled=false;
+  }
+}
+function telecharger(){
+  const s=fichier(propre());if(s.length>2e6&&!confirm('Le fichier dépasse 2 Mo à cause des images intégrées. La publication directe GitHub les enregistre à part. Continuer ?'))return;
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([s],{type:'text/javascript;charset=utf-8'}));a.download='contenu.js';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  ajoutHist('Téléchargement',propre());toast('contenu.js téléchargé : déposez-le sur GitHub.');
+}
+function annuler(){if(!confirm('Abandonner toutes les modifications non publiées ?'))return;D=clone(PUB);norm(D);save(true);toast('Modifications annulées.')}
+function apercu(){save(false);window.open('index.html?apercu=1','_blank')}
+
+/* ---------- Historique ---------- */
+const dateFr=d=>new Date(d).toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+function hist(){try{return JSON.parse(ls.get(K.hist)||'[]')}catch(e){return[]}}
+function ajoutHist(label,data){
+  const h=hist();h.unshift({date:new Date().toISOString(),label,data});
+  while(h.length>15)h.pop();
+  while(h.length&&!ls.set(K.hist,JSON.stringify(h)))h.pop();
+}
+function pointSauvegarde(){ajoutHist('Point de sauvegarde',clone(D));rHist();toast('Point de sauvegarde créé.')}
+function rHist(){
+  const h=hist();
+  $('hist').innerHTML=h.length?h.map((x,i)=>'<tr><td>'+esc(dateFr(x.date))+'</td><td>'+esc(x.label)+'</td><td>'+((x.data&&x.data.apps)||[]).length+'</td><td><button class="btn line sm" type="button" data-restore="'+i+'">Restaurer en brouillon</button></td></tr>').join(''):'<tr><td colspan="4">Aucune version enregistrée sur cet appareil.</td></tr>';
+  $('hist-gh').innerHTML=/^[\w.-]+\/[\w.-]+$/.test(D.reglages.depot||'')?'Historique complet de toutes les publications : <a href="https://github.com/'+esc(D.reglages.depot)+'/commits/'+esc(D.reglages.branche||'main')+'/contenu.js" target="_blank" rel="noopener">voir sur GitHub</a>.':'';
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-restore]');if(!b)return;const x=hist()[+b.dataset.restore];if(!x||!confirm('Remplacer le brouillon par la version du '+dateFr(x.date)+' ?'))return;D=clone(x.data);norm(D);save(false);toast('Version restaurée en brouillon : publiez-la pour la remettre en ligne.');showPage('publication')});
+
+/* ---------- Réglages ---------- */
+function rReglages(){
+  ['r-fs:formspree','r-mail:email','r-depot:depot','r-br:branche'].forEach(x=>{const[i,k]=x.split(':');$(i).value=D.reglages[k]||''});
+  $('r-tok').value=ls.get(K.tok)?'••••••••••':'';
+}
+const fsId=v=>{v=String(v||'').trim().replace(/^https:\/\/formspree\.io\/f\//,'').replace(/^f\//,'');return /^[\w-]+$/.test(v)?v:''};
+function enregistrerJeton(){const v=$('r-tok').value.trim();if(!v||/^•+$/.test(v))return toast('Collez d\'abord le jeton GitHub.');ls.set(K.tok,v);$('r-tok').value='••••••••••';majEtat();toast('Jeton enregistré sur cet appareil.')}
+function oublierJeton(){ls.del(K.tok);$('r-tok').value='';toast('Jeton supprimé de cet appareil.')}
+async function testerGH(){
+  const v=$('r-tok').value.trim();if(v&&!/^•+$/.test(v))ls.set(K.tok,v);
+  if(!/^[\w.-]+\/[\w.-]+$/.test(D.reglages.depot||''))return res('gh-res','Renseignez le dépôt sous la forme compte/nom-du-depot.','err');
+  if(!ls.get(K.tok))return res('gh-res','Collez le jeton GitHub.','err');
+  res('gh-res','Test en cours…','warn');
+  try{const r=await gh(null,'GET');res('gh-res',r&&r.permissions&&r.permissions.push===false?'Connexion établie, mais le jeton ne permet pas d\'écrire : ajoutez la permission « Contents : Read and write ».':'Connexion réussie : la publication directe est prête.',r&&r.permissions&&r.permissions.push===false?'warn':'ok');$('r-tok').value='••••••••••'}
+  catch(e){res('gh-res',e.status===401?'Jeton refusé par GitHub.':e.status===404?'Dépôt introuvable ou inaccessible avec ce jeton.':'GitHub ne répond pas : vérifiez votre connexion.','err')}
+}
+function changerAcces(){
+  const id=$('r-id').value.trim().toUpperCase(),pw=$('r-pw').value;
+  if(id.length<3)return toast('Identifiant trop court.');if(pw.length<8)return toast('Mot de passe : 8 caractères minimum.');
+  D.reglages.acces=sha256(id+':'+pw);$('r-id').value=$('r-pw').value='';save(false);toast('Nouvel accès prêt : il prendra effet après publication.');
+}
+
+/* ---------- Démarrage ---------- */
+if(connecte())ouvrir();else{try{$('l-id').focus()}catch(e){}}
+</script>
+</body>
+</html>
